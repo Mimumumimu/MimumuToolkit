@@ -47,7 +47,7 @@ namespace MimumuSDK.CustomControls
         [Category("Appearance")]
         [Description("ボタンの背景色")]
         [Browsable(true)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color ButtonColor
         {
             get { return _buttonColor; }

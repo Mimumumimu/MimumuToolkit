@@ -14,28 +14,43 @@ namespace MimumuSDK.CustomControls
 {
     public class CustomForm : Form
     {
-        private enum ResizeDirection
+        /// <summary>
+        /// タイトルバーのコントロール
+        /// </summary>
+        private TitleBarControl? m_titleBar = null;
+
+        /// <summary>
+        /// Padding の値
+        /// </summary>
+        private Padding m_padding = new(4);
+
+        /// <summary>
+        /// Padding プロパティのオーバーライド
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new Padding Padding
         {
-            None,
-            Left,
-            Right,
-            Top,
-            Bottom,
-            TopLeft,
-            TopRight,
-            BottomLeft,
-            BottomRight
+            get { return m_padding; }
+            set { m_padding = value; base.Padding = value; }
         }
 
-        private bool m_isResizing = false;
-        private ResizeDirection m_resizeDirection;
-        private TitleBarControl? m_titleBar = null;
-        private List<Control>? m_sizableControls = new List<Control>();
-
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public CustomForm()
         {
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+            base.Padding = m_padding;
         }
 
         protected void InitializeCommon(TitleBarControl? titleBar = null)
@@ -44,16 +59,8 @@ namespace MimumuSDK.CustomControls
             if (m_titleBar != null)
             {
                 m_titleBar.GetCloseButton.Click += CloseButtonClicked;
-                SetSizable(m_titleBar.GetCloseButton);
+                //SetSizable(m_titleBar.GetCloseButton);
             }
-        }
-
-        protected void SetSizable(Control control)
-        {
-            control.MouseDown += Form_MouseDown;
-            control.MouseMove += Form_MouseMove;
-            control.MouseUp += Form_MouseUp;
-            m_sizableControls?.Add(control);
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
@@ -66,26 +73,8 @@ namespace MimumuSDK.CustomControls
                 m_titleBar.GetCloseButton.Click -= CloseButtonClicked;
                 m_titleBar = null;
             }
-            if (m_sizableControls != null)
-            {
-                foreach (var control in m_sizableControls)
-                {
-                    if (control != null)
-                    {
-                        control.MouseDown -= Form_MouseDown;
-                        control.MouseMove -= Form_MouseMove;
-                        control.MouseUp -= Form_MouseUp;
-                    }
-                }
-                m_sizableControls.Clear();
-                m_sizableControls = null;
-            }
         }
 
-        private void C_MouseDown(object? sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         [DllImport("dwmapi.dll")]
         public static extern bool DwmIsCompositionEnabled();
@@ -112,121 +101,55 @@ namespace MimumuSDK.CustomControls
             }
         }
 
-        protected override CreateParams CreateParams
+        private const int WM_NCHITTEST = 0x0084;
+        //private const int HTCLIENT = 0x0001;
+        private const int HTLEFT = 0x000A;
+        private const int HTRIGHT = 0x000B;
+        private const int HTTOP = 0x000C;
+        private const int HTTOPLEFT = 0x000D;
+        private const int HTTOPRIGHT = 0x000E;
+        private const int HTBOTTOM = 0x000F;
+        private const int HTBOTTOMLEFT = 0x0010;
+        private const int HTBOTTOMRIGHT = 0x0011;
+        private int m_resizeBoxSize = 10;
+
+        protected override void WndProc(ref Message m)
         {
-            get
+            base.WndProc(ref m);
+
+            if (m.Msg == WM_NCHITTEST)
             {
-                CreateParams cp = base.CreateParams;
-                // ちらつきを抑える
-                cp.ExStyle |= 0x02000000;
-                return cp;
+                Point pos = new Point(m.LParam.ToInt32() & 0xFFFF, m.LParam.ToInt32() >> 16);
+                pos = this.PointToClient(pos);
+
+                int w = this.ClientSize.Width;
+                int h = this.ClientSize.Height;
+                int x = pos.X;
+                int y = pos.Y;
+                int sz = m_resizeBoxSize;
+
+                if (x <= sz && y <= sz)
+                    m.Result = (IntPtr)HTTOPLEFT;
+                else if (x >= w - sz && y <= sz)
+                    m.Result = (IntPtr)HTTOPRIGHT;
+                else if (x <= sz && y >= h - sz)
+                    m.Result = (IntPtr)HTBOTTOMLEFT;
+                else if (x >= w - sz && y >= h - sz)
+                    m.Result = (IntPtr)HTBOTTOMRIGHT;
+                else if (x <= sz)
+                    m.Result = (IntPtr)HTLEFT;
+                else if (x >= w - sz)
+                    m.Result = (IntPtr)HTRIGHT;
+                else if (y <= sz)
+                    m.Result = (IntPtr)HTTOP;
+                else if (y >= h - sz)
+                    m.Result = (IntPtr)HTBOTTOM;
             }
         }
 
         protected void CloseButtonClicked(object? sender, EventArgs e)
         {
-            if (m_isResizing == true)
-            {
-                return;
-            }
             this.Close();
         }
-
-        protected void Form_MouseDown(object? sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && m_resizeDirection != ResizeDirection.None)
-            {
-                m_isResizing = true;
-            }
-        }
-
-        protected void Form_MouseUp(object? sender, MouseEventArgs e)
-        {
-            m_isResizing = false;
-        }
-
-        protected void Form_MouseMove(object? sender, MouseEventArgs e)
-        {
-            // 送信元のコントロールと、そのコントロール上でのマウス座標を取得
-            Control control = (Control)sender!;
-            Point controlClientPoint = e.Location;
-            // フォーム全体のクライアント座標に変換
-            Point formClientPoint = this.PointToClient(control.PointToScreen(controlClientPoint));
-
-            if (m_isResizing)
-            {
-                // リサイズ処理
-                Point screenPoint = control.PointToScreen(controlClientPoint);
-                int newX = this.Left;
-                int newY = this.Top;
-                int newWidth = this.Width;
-                int newHeight = this.Height;
-
-                // 右辺・下辺の計算
-                if (m_resizeDirection.ToString().Contains("Right"))
-                {
-                    newWidth = screenPoint.X - this.Left;
-                }
-                if (m_resizeDirection.ToString().Contains("Bottom"))
-                {
-                    newHeight = screenPoint.Y - this.Top;
-                }
-                // 左辺・上辺の計算
-                if (m_resizeDirection.ToString().Contains("Left"))
-                {
-                    newWidth = this.Right - screenPoint.X;
-                    newX = screenPoint.X;
-                }
-                if (m_resizeDirection.ToString().Contains("Top"))
-                {
-                    newHeight = this.Bottom - screenPoint.Y;
-                    newY = screenPoint.Y;
-                }
-
-                this.SetBounds(newX, newY, newWidth, newHeight);
-            }
-            else
-            {
-                // カーソル変更処理
-                bool onLeft = formClientPoint.X < FormConstant.ResizeBorderWidth;
-                bool onRight = formClientPoint.X > this.ClientSize.Width - FormConstant.ResizeBorderWidth;
-                bool onTop = formClientPoint.Y < FormConstant.ResizeBorderWidth;
-                bool onBottom = formClientPoint.Y > this.ClientSize.Height - FormConstant.ResizeBorderWidth;
-
-                if (onTop && onLeft) m_resizeDirection = ResizeDirection.TopLeft;
-                else if (onTop && onRight) m_resizeDirection = ResizeDirection.TopRight;
-                else if (onBottom && onLeft) m_resizeDirection = ResizeDirection.BottomLeft;
-                else if (onBottom && onRight) m_resizeDirection = ResizeDirection.BottomRight;
-                else if (onLeft) m_resizeDirection = ResizeDirection.Left;
-                else if (onRight) m_resizeDirection = ResizeDirection.Right;
-                else if (onTop) m_resizeDirection = ResizeDirection.Top;
-                else if (onBottom) m_resizeDirection = ResizeDirection.Bottom;
-                else m_resizeDirection = ResizeDirection.None;
-
-                switch (m_resizeDirection)
-                {
-                    case ResizeDirection.TopLeft:
-                    case ResizeDirection.BottomRight:
-                        this.Cursor = Cursors.SizeNWSE;
-                        break;
-                    case ResizeDirection.TopRight:
-                    case ResizeDirection.BottomLeft:
-                        this.Cursor = Cursors.SizeNESW;
-                        break;
-                    case ResizeDirection.Left:
-                    case ResizeDirection.Right:
-                        this.Cursor = Cursors.SizeWE;
-                        break;
-                    case ResizeDirection.Top:
-                    case ResizeDirection.Bottom:
-                        this.Cursor = Cursors.SizeNS;
-                        break;
-                    default:
-                        this.Cursor = Cursors.Default;
-                        break;
-                }
-            }
-        }
-
     }
 }

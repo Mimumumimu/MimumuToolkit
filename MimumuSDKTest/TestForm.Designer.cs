@@ -30,6 +30,8 @@
         {
             TbTitle = new MimumuSDK.CustomControls.TitleBarControl();
             PnlFill = new Panel();
+            button1 = new Button();
+            TxtDiscordKey = new TextBox();
             TbSpeed = new TrackBar();
             LblSpeed = new Label();
             LblVolume = new Label();
@@ -45,14 +47,16 @@
             // 
             TbTitle.Dock = DockStyle.Top;
             TbTitle.Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            TbTitle.Location = new Point(0, 0);
+            TbTitle.Location = new Point(4, 4);
             TbTitle.Margin = new Padding(3, 4, 3, 4);
             TbTitle.Name = "TbTitle";
-            TbTitle.Size = new Size(800, 30);
+            TbTitle.Size = new Size(792, 30);
             TbTitle.TabIndex = 0;
             // 
             // PnlFill
             // 
+            PnlFill.Controls.Add(button1);
+            PnlFill.Controls.Add(TxtDiscordKey);
             PnlFill.Controls.Add(TbSpeed);
             PnlFill.Controls.Add(LblSpeed);
             PnlFill.Controls.Add(LblVolume);
@@ -60,15 +64,32 @@
             PnlFill.Controls.Add(BtnSpeek);
             PnlFill.Controls.Add(TxtSpeek);
             PnlFill.Dock = DockStyle.Fill;
-            PnlFill.Location = new Point(0, 30);
+            PnlFill.Location = new Point(4, 34);
             PnlFill.Margin = new Padding(0);
             PnlFill.Name = "PnlFill";
-            PnlFill.Size = new Size(800, 420);
+            PnlFill.Size = new Size(792, 412);
             PnlFill.TabIndex = 1;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(12, 140);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 11;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // TxtDiscordKey
+            // 
+            TxtDiscordKey.Location = new Point(12, 105);
+            TxtDiscordKey.Name = "TxtDiscordKey";
+            TxtDiscordKey.Size = new Size(304, 29);
+            TxtDiscordKey.TabIndex = 10;
             // 
             // TbSpeed
             // 
-            TbSpeed.Location = new Point(371, 56);
+            TbSpeed.Location = new Point(371, 72);
             TbSpeed.Minimum = -10;
             TbSpeed.Name = "TbSpeed";
             TbSpeed.Size = new Size(104, 45);
@@ -78,7 +99,7 @@
             // LblSpeed
             // 
             LblSpeed.AutoSize = true;
-            LblSpeed.Location = new Point(302, 56);
+            LblSpeed.Location = new Point(302, 72);
             LblSpeed.Name = "LblSpeed";
             LblSpeed.Size = new Size(53, 21);
             LblSpeed.TabIndex = 8;
@@ -87,7 +108,7 @@
             // LblVolume
             // 
             LblVolume.AutoSize = true;
-            LblVolume.Location = new Point(302, 8);
+            LblVolume.Location = new Point(302, 24);
             LblVolume.Name = "LblVolume";
             LblVolume.Size = new Size(63, 21);
             LblVolume.TabIndex = 7;
@@ -95,7 +116,7 @@
             // 
             // TbVolume
             // 
-            TbVolume.Location = new Point(371, 5);
+            TbVolume.Location = new Point(371, 21);
             TbVolume.Maximum = 100;
             TbVolume.Name = "TbVolume";
             TbVolume.Size = new Size(104, 45);
@@ -106,7 +127,7 @@
             // BtnSpeek
             // 
             BtnSpeek.FlatStyle = FlatStyle.Flat;
-            BtnSpeek.Location = new Point(481, 4);
+            BtnSpeek.Location = new Point(481, 19);
             BtnSpeek.Name = "BtnSpeek";
             BtnSpeek.Size = new Size(150, 30);
             BtnSpeek.TabIndex = 5;
@@ -116,7 +137,7 @@
             // 
             // TxtSpeek
             // 
-            TxtSpeek.Location = new Point(10, 5);
+            TxtSpeek.Location = new Point(10, 21);
             TxtSpeek.Name = "TxtSpeek";
             TxtSpeek.Size = new Size(286, 29);
             TxtSpeek.TabIndex = 3;
@@ -149,5 +170,7 @@
         private TrackBar TbSpeed;
         private Label LblSpeed;
         private Label LblVolume;
+        private TextBox TxtDiscordKey;
+        private Button button1;
     }
 }

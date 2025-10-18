@@ -47,19 +47,19 @@
             // 
             BtnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BtnClose.FlatAppearance.BorderSize = 0;
-            BtnClose.FlatAppearance.MouseDownBackColor = Color.FromArgb(70, 70, 70);
-            BtnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(50, 50, 50);
+            BtnClose.FlatAppearance.MouseDownBackColor = Color.FromArgb(199, 64, 49);
+            BtnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(218, 62, 68);
             BtnClose.FlatStyle = FlatStyle.Flat;
             BtnClose.Font = new Font("Segoe UI Variable Display", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BtnClose.Location = new Point(588, -9);
+            BtnClose.Location = new Point(592, -10);
             BtnClose.Name = "BtnClose";
-            BtnClose.Size = new Size(30, 40);
+            BtnClose.Size = new Size(30, 38);
             BtnClose.TabIndex = 1;
             BtnClose.Text = "×";
             BtnClose.UseVisualStyleBackColor = false;
-            BtnClose.MouseDown += BtnClose_MouseDown;
-            BtnClose.MouseMove += BtnClose_MouseMove;
-            BtnClose.MouseUp += BtnClose_MouseUp;
+            BtnClose.Click += BtnClose_Click;
+            BtnClose.MouseEnter += BtnClose_MouseEnter;
+            BtnClose.MouseLeave += BtnClose_MouseLeave;
             // 
             // TitleBarControl
             // 

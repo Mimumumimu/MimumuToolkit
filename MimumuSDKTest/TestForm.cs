@@ -14,15 +14,21 @@ namespace MimumuSDKTest
         {
             InitializeComponent();
             InitializeCommon(TbTitle);
-            SetSizable(this);
-            SetSizable(PnlFill);
+            //SetSizable(this);
+            //SetSizable(PnlFill);
 
             FormUtil.SetDarkMode(this, 2);
+            TxtDiscordKey.PlaceholderText = "Discord Bot Token";
         }
 
         private void BtnSpeek_Click(object sender, EventArgs e)
         {
             CommonUtil.SpeakText(TxtSpeek.Text, TbSpeed.Value, TbVolume.Value);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
