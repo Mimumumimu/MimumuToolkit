@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuToolkit", "MimumuToolkit\MimumuToolkit.csproj", "{A5C39B16-37BA-455F-88A1-29B536D87107}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuToolkitTest", "MimumuToolkitTest\MimumuToolkitTest.csproj", "{79C7F0EA-5104-47C7-9FEE-7DA16FD94F2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuToolkit", "MimumuToolkit\MimumuToolkit.csproj", "{A5C39B16-37BA-455F-88A1-29B536D87107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
