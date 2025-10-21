@@ -2,7 +2,7 @@ The MIT License (MIT)
 
 ---
 
-### MimumuSDK License
+### MimumuToolkit License
 
 Copyright (c) 2025 Mimumu Mimu
 
