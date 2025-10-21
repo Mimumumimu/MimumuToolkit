@@ -53,7 +53,6 @@
         {
             return ToInt(dt.ToString("yyyyMMdd"));
         }
-
         public static DateTime IntDateToDatetime(int intDate)
         {
             var strDate = intDate.ToString("D8");

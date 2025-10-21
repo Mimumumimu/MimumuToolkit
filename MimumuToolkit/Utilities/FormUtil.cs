@@ -1,4 +1,6 @@
-﻿namespace MimumuToolkit.Utilities
+﻿using System.Runtime.InteropServices;
+
+namespace MimumuToolkit.Utilities
 {
     public class FormUtil
     {
@@ -67,6 +69,24 @@
             }
 
             return Color.FromArgb(rgbValue, rgbValue, rgbValue);
+        }
+
+        // マウスドラッグでウィンドウを移動する処理
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HTCAPTION = 0x2;
+
+        public static void DragWindow(Form targetForm)
+        {
+            if (targetForm != null)
+            {
+                ReleaseCapture();
+                _ = SendMessage(targetForm.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+            }
         }
     }
 }

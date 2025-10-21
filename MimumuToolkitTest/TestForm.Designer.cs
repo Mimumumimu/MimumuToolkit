@@ -39,6 +39,7 @@
             TbVolume = new TrackBar();
             BtnSpeek = new Button();
             TxtSpeek = new TextBox();
+            CbDarkMode = new CheckBox();
             PnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TbSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)TbVolume).BeginInit();
@@ -56,6 +57,7 @@
             // 
             // PnlFill
             // 
+            PnlFill.Controls.Add(CbDarkMode);
             PnlFill.Controls.Add(roundButton1);
             PnlFill.Controls.Add(button1);
             PnlFill.Controls.Add(TxtDiscordKey);
@@ -163,6 +165,17 @@
             TxtSpeek.TabIndex = 3;
             TxtSpeek.Text = "せんごくさんは今日も元気だなあ";
             // 
+            // CbDarkMode
+            // 
+            CbDarkMode.AutoSize = true;
+            CbDarkMode.Location = new Point(12, 207);
+            CbDarkMode.Name = "CbDarkMode";
+            CbDarkMode.Size = new Size(102, 25);
+            CbDarkMode.TabIndex = 13;
+            CbDarkMode.Text = "checkBox1";
+            CbDarkMode.UseVisualStyleBackColor = true;
+            CbDarkMode.CheckedChanged += CbDarkMode_CheckedChanged;
+            // 
             // TestForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -193,5 +206,6 @@
         private TextBox TxtDiscordKey;
         private Button button1;
         private MimumuToolkit.CustomControls.RoundButton roundButton1;
+        private CheckBox CbDarkMode;
     }
 }

@@ -31,13 +31,32 @@ namespace MimumuToolkit.CustomControls
         }
 
         /// <summary>
+        /// サイズ変更可否
+        /// </summary>
+        [Category("Behavior")]
+        [Description("フォームのサイズ変更を許可するかどうかを設定します。")]
+        [DefaultValue(true)]
+        public bool Resizable { get; set; } = true;
+
+        /// <summary>
+        /// 初回起動時のみフォームを右下に表示するかどうか
+        /// </summary>
+        [Category("Appearance")]
+        [Description("初回起動時のみフォームを右下に表示するかどうかを設定します。")]
+        [DefaultValue(false)]
+        public bool ShowInBottomRightOnce {
+            get;
+            set;
+        } = false;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public CustomForm()
         {
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
-            if (MimumuSDKManager.IsDarkModeEnabled)
+            if (MimumuToolkitManager.IsDarkModeEnabled)
             {
                 FormUtil.SetDarkMode(this, 2);
             }
@@ -75,12 +94,25 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                // 最大化時は上のPaddingをなくす
+                base.Padding = new Padding(FormConstants.PaddingSize, 0, FormConstants.PaddingSize, FormConstants.PaddingSize);
+            }
+            else
+            {
+                base.Padding = new Padding(FormConstants.PaddingSize);
+            }
+        }
+
 
         [DllImport("dwmapi.dll")]
         public static extern bool DwmIsCompositionEnabled();
         [DllImport("dwmapi.dll")]
         public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
-        private const int DWMWCP_ROUND = 3;
         private const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
 
         protected override void OnHandleCreated(EventArgs e)
@@ -89,9 +121,10 @@ namespace MimumuToolkit.CustomControls
 
             try
             {
-                // DWM が利用可能かどうかを間接的に確認
-                int cornerPreference = DWMWCP_ROUND;
-                // ウィンドウの角を丸くする
+                // ウィンドウの角の丸み具合を設定します 2か3がいい感じに丸くて　3のほうが角ばってる
+                int cornerPreference = 2;
+                // DWM (Desktop Window Manager) を使用してウィンドウの角を丸くします
+                // DWM が利用できない場合は、この処理は効果がありません
                 _ = DwmSetWindowAttribute(this.Handle, DWMWA_WINDOW_CORNER_PREFERENCE, ref cornerPreference, sizeof(int));
             }
             catch (Exception ex)
@@ -111,7 +144,6 @@ namespace MimumuToolkit.CustomControls
         private const int HTBOTTOM = 0x000F;
         private const int HTBOTTOMLEFT = 0x0010;
         private const int HTBOTTOMRIGHT = 0x0011;
-        //private int m_resizeBoxSize = 4;
 
         protected override void WndProc(ref Message m)
         {
@@ -119,7 +151,7 @@ namespace MimumuToolkit.CustomControls
 
             if (m.Msg == WM_NCHITTEST)
             {
-                if (this.WindowState == FormWindowState.Maximized)
+                if (Resizable == false || this.WindowState == FormWindowState.Maximized)
                 {
                     return;
                 }
@@ -128,10 +160,7 @@ namespace MimumuToolkit.CustomControls
                 int lParam = m.LParam.ToInt32();
                 int x = (short)(lParam & 0xFFFF);
                 int y = (short)(lParam >> 16);
-
-                //Point pos = new(x, y);
-                //pos = this.PointToClient(pos);
-
+                    
                 // クライアント領域のRectangleをスクリーン座標に変換
                 Rectangle clientRect = RectangleToScreen(this.ClientRectangle);
 
@@ -179,6 +208,16 @@ namespace MimumuToolkit.CustomControls
                 // 保存された位置がない場合
                 if (CommonUtil.ContainsConfigurationSettingKey(GetLocationXKey()) == false)
                 {
+                    if (ShowInBottomRightOnce == true)
+                    {
+                        var primaryScreen = Screen.PrimaryScreen;
+                        if (primaryScreen != null)
+                        {
+                            int locX = primaryScreen.WorkingArea.Width - Width - 10;
+                            int locY = primaryScreen.WorkingArea.Height - Height - 10;
+                            Location = new Point(locX, locY);
+                        }
+                    }
                     // 既定の位置で保存
                     SaveFormLocation();
                     return;
@@ -209,7 +248,7 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
-        private void SaveFormLocation()
+        protected void SaveFormLocation()
         {
             if (string.IsNullOrEmpty(Name)) return;
             try

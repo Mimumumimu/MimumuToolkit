@@ -1,4 +1,5 @@
 ﻿using MimumuToolkit.Constants;
+using MimumuToolkit.Utilities;
 using System.Runtime.InteropServices;
 
 namespace MimumuToolkit.CustomControls
@@ -67,19 +68,20 @@ namespace MimumuToolkit.CustomControls
                     if (ParentForm.WindowState == FormWindowState.Normal)
                     {
                         ParentForm.WindowState = FormWindowState.Maximized;
-                        ParentForm.Padding = new Padding(0);
                     }
                     else
                     {
                         ParentForm.WindowState = FormWindowState.Normal;
-                        ParentForm.Padding = new Padding(FormConstants.PaddingSize);
                     }
                 }
                 m_lastMouseDownTime = DateTime.MinValue;
             }
             else
             {
-                DragWindow();
+                if (ParentForm != null)
+                {
+                    FormUtil.DragWindow(ParentForm);
+                }
                 m_lastMouseDownTime = now;
             }
         }
@@ -89,26 +91,6 @@ namespace MimumuToolkit.CustomControls
             OnMouseDown(e);
         }
 
-        // マウスドラッグでウィンドウを移動する処理
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private const int WM_NCLBUTTONDOWN = 0xA1;
-        private const int HTCAPTION = 0x2;
-
-        protected void DragWindow()
-        {
-            if (ParentForm != null)
-            {
-                ReleaseCapture();
-                _ = SendMessage(ParentForm.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
-            }
-        }
-
         #endregion
-
-
     }
 }

@@ -1,5 +1,7 @@
-﻿using MimumuToolkit.Constants;
+﻿using MimumuToolkit;
+using MimumuToolkit.Constants;
 using MimumuToolkit.CustomControls;
+using MimumuToolkit.Dialogs;
 using MimumuToolkit.Utilities;
 using System;
 using System.Drawing;
@@ -15,6 +17,7 @@ namespace MimumuToolkitTest
             InitializeComponent();
             InitializeCommon(TbTitle);
 
+            CbDarkMode.Checked = MimumuToolkitManager.IsDarkModeEnabled;
             TxtDiscordKey.PlaceholderText = "Discord Bot Token";
         }
 
@@ -25,7 +28,19 @@ namespace MimumuToolkitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
+            MimumuToolkitManager.ShowNotification("Test Title", "This is a test message.");
+        }
 
+        private void CbDarkMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CbDarkMode.Checked == true)
+            {
+                MimumuToolkitManager.IsDarkModeEnabled = true;
+            }
+            else
+            {
+                MimumuToolkitManager.IsDarkModeEnabled = false;
+            }
         }
     }
 }
