@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MimumuSDK.CustomControls
+namespace MimumuToolkit.CustomControls
 {
     public class RoundButton : Button
     {
@@ -108,23 +108,35 @@ namespace MimumuSDK.CustomControls
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             // ボタンの領域を表すRectangleを作成
-            Rectangle rect = new Rectangle(0, 0, Width, Height);
+            Rectangle rect = new Rectangle(-1, -1, Width + 1, Height + 1);
+
+            // 背景を塗りつぶす
+            if (Parent != null)
+            {
+                using (Brush backColorBrush = new SolidBrush(Parent.BackColor))
+                {
+                    e.Graphics.FillRectangle(backColorBrush, rect);
+                }
+            }
 
             // 角丸のパスを作成
             GraphicsPath path = RoundedRect(rect, _cornerRadius);
 
-            // 背景を描画
-            using (Brush backColorBrush = new SolidBrush(ButtonColor))
+            // ボタンの色を描画
+            Color buttonColor;
             {
-                e.Graphics.FillPath(backColorBrush, path);
-            }
-
-            // マウスオーバー時のハイライト表示
-            if (ClientRectangle.Contains(PointToClient(Cursor.Position)))
-            {
-                using (Brush highlightBrush = new SolidBrush(HighlightColor))
+                // マウスオーバー時のハイライト表示
+                if (ClientRectangle.Contains(PointToClient(Cursor.Position)))
                 {
-                    e.Graphics.FillPath(highlightBrush, path);
+                    buttonColor = HighlightColor;
+                }
+                else
+                {
+                    buttonColor = ButtonColor;
+                }
+                using (Brush buttonColorBrush = new SolidBrush(buttonColor))
+                {
+                    e.Graphics.FillPath(buttonColorBrush, path);
                 }
             }
 
@@ -138,7 +150,7 @@ namespace MimumuSDK.CustomControls
             }
 
             // テキストを描画
-            TextRenderer.DrawText(e.Graphics, Text, Font, rect, ForeColor, BackColor,
+            TextRenderer.DrawText(e.Graphics, Text, Font, rect, ForeColor, buttonColor,
                 TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
         }
 
@@ -156,20 +168,23 @@ namespace MimumuSDK.CustomControls
                 return path;
             }
 
+            // わずかなオフセット
+            int offset = 1;
+
             // 左上の弧
-            path.AddArc(arc, 180, 90);
+            path.AddArc(arc.X + offset, arc.Y + offset, diameter, diameter, 180, 90);
 
             // 右上の弧
-            arc.X = bounds.Right - diameter;
-            path.AddArc(arc, 270, 90);
+            arc.X = bounds.Right - diameter - offset;
+            path.AddArc(arc.X, arc.Y + offset, diameter, diameter, 270, 90);
 
             // 右下の弧
-            arc.Y = bounds.Bottom - diameter;
-            path.AddArc(arc, 0, 90);
+            arc.Y = bounds.Bottom - diameter - offset;
+            path.AddArc(arc.X, arc.Y, diameter, diameter, 0, 90);
 
             // 左下の弧
-            arc.X = bounds.Left;
-            path.AddArc(arc, 90, 90);
+            arc.X = bounds.Left + offset;
+            path.AddArc(arc.X, arc.Y, diameter, diameter, 90, 90);
 
             path.CloseFigure();
             return path;

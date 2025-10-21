@@ -1,4 +1,4 @@
-﻿namespace MimumuSDKTest
+﻿namespace MimumuToolkitTest
 {
     partial class TestForm
     {
@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            TbTitle = new MimumuSDK.CustomControls.TitleBarControl();
+            TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
+            roundButton1 = new MimumuToolkit.CustomControls.RoundButton();
             button1 = new Button();
             TxtDiscordKey = new TextBox();
             TbSpeed = new TrackBar();
@@ -55,6 +56,7 @@
             // 
             // PnlFill
             // 
+            PnlFill.Controls.Add(roundButton1);
             PnlFill.Controls.Add(button1);
             PnlFill.Controls.Add(TxtDiscordKey);
             PnlFill.Controls.Add(TbSpeed);
@@ -70,11 +72,29 @@
             PnlFill.Size = new Size(792, 412);
             PnlFill.TabIndex = 1;
             // 
+            // roundButton1
+            // 
+            roundButton1.BackColor = Color.RosyBrown;
+            roundButton1.BorderColor = Color.LightGray;
+            roundButton1.BorderWidth = 1;
+            roundButton1.ButtonColor = Color.White;
+            roundButton1.CornerRadius = 50;
+            roundButton1.FlatAppearance.BorderSize = 0;
+            roundButton1.FlatStyle = FlatStyle.Flat;
+            roundButton1.ForeColor = Color.Black;
+            roundButton1.HighlightColor = Color.LightBlue;
+            roundButton1.Location = new Point(302, 223);
+            roundButton1.Name = "roundButton1";
+            roundButton1.Size = new Size(100, 100);
+            roundButton1.TabIndex = 12;
+            roundButton1.Text = "roundButt";
+            roundButton1.UseVisualStyleBackColor = false;
+            // 
             // button1
             // 
             button1.Location = new Point(12, 140);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(291, 61);
             button1.TabIndex = 11;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
@@ -162,7 +182,7 @@
 
         #endregion
 
-        private MimumuSDK.CustomControls.TitleBarControl TbTitle;
+        private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
         private Panel PnlFill;
         private TextBox TxtSpeek;
         private Button BtnSpeek;
@@ -172,5 +192,6 @@
         private Label LblVolume;
         private TextBox TxtDiscordKey;
         private Button button1;
+        private MimumuToolkit.CustomControls.RoundButton roundButton1;
     }
 }

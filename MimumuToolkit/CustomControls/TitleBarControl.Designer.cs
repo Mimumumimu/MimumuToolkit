@@ -1,4 +1,4 @@
-﻿namespace MimumuSDK.CustomControls
+﻿namespace MimumuToolkit.CustomControls
 {
     partial class TitleBarControl
     {
@@ -28,20 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            LblTitlle = new Label();
+            LblTitle = new Label();
             BtnClose = new Button();
             SuspendLayout();
             // 
-            // LblTitlle
+            // LblTitle
             // 
-            LblTitlle.AutoSize = true;
-            LblTitlle.Location = new Point(3, 7);
-            LblTitlle.Name = "LblTitlle";
-            LblTitlle.Size = new Size(27, 16);
-            LblTitlle.TabIndex = 0;
-            LblTitlle.Text = "title";
-            LblTitlle.TextAlign = ContentAlignment.MiddleLeft;
-            LblTitlle.MouseDown += TitleBarControl_MouseDown;
+            LblTitle.AutoSize = true;
+            LblTitle.BackColor = Color.Transparent;
+            LblTitle.Location = new Point(3, 7);
+            LblTitle.Name = "LblTitle";
+            LblTitle.Size = new Size(27, 16);
+            LblTitle.TabIndex = 0;
+            LblTitle.Text = "title";
+            LblTitle.TextAlign = ContentAlignment.MiddleLeft;
+            LblTitle.MouseDown += LblTitle_MouseDown;
             // 
             // BtnClose
             // 
@@ -64,21 +65,20 @@
             // TitleBarControl
             // 
             AutoScaleMode = AutoScaleMode.None;
-            Controls.Add(LblTitlle);
+            Controls.Add(LblTitle);
             Controls.Add(BtnClose);
             DoubleBuffered = true;
             Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(3, 4, 3, 4);
             Name = "TitleBarControl";
             Size = new Size(618, 30);
-            MouseDown += TitleBarControl_MouseDown;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label LblTitlle;
+        private Label LblTitle;
         public Button BtnClose;
     }
 }

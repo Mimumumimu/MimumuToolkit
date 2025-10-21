@@ -1,7 +1,8 @@
+using MimumuToolkit;
 using System;
 using System.Windows.Forms;
 
-namespace MimumuSDKTest
+namespace MimumuToolkitTest
 {
     internal static class Program
     {

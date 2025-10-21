@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MimumuSDK\MimumuSDK.csproj" />
+    <ProjectReference Include="..\MimumuToolkit\MimumuToolkit.csproj" />
   </ItemGroup>
 
 </Project>

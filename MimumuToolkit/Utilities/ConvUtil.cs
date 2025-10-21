@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MimumuSDK.Utilities
+﻿namespace MimumuToolkit.Utilities
 {
     public class ConvUtil
     {
@@ -14,9 +7,9 @@ namespace MimumuSDK.Utilities
         /// </summary>
         /// <param name="obj">変換するオブジェクト</param>
         /// <returns>変換された整数。変換できない場合は0を返します</returns>
-        public static int ToInt(object obj)
+        public static int ToInt(object obj, int defaultValue = 0)
         {
-            return int.TryParse(obj?.ToString(), out var result) ? result : 0;
+            return int.TryParse(obj?.ToString(), out var result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -29,11 +22,11 @@ namespace MimumuSDK.Utilities
             return obj?.ToString() ?? string.Empty;
         }
 
-        public static bool ToBool(object obj)
+        public static bool ToBool(object obj, bool defaultValue = false)
         {
             if (obj == null)
             {
-                return false;
+                return defaultValue;
             }
             if (obj is bool b)
             {
@@ -41,13 +34,14 @@ namespace MimumuSDK.Utilities
             }
             if (obj is int i)
             {
-                return i != 0;
+                // 0以外はtrueとみなす
+                return (i != 0);
             }
             if (obj is string s)
             {
                 return s.Equals("true", StringComparison.OrdinalIgnoreCase) || s == "1";
             }
-            return false;
+            return defaultValue;
         }
 
         /// <summary>

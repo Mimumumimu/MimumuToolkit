@@ -1,12 +1,12 @@
-﻿using MimumuSDK.Constants;
-using MimumuSDK.CustomControls;
-using MimumuSDK.Utilities;
+﻿using MimumuToolkit.Constants;
+using MimumuToolkit.CustomControls;
+using MimumuToolkit.Utilities;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MimumuSDKTest
+namespace MimumuToolkitTest
 {
     public partial class TestForm : CustomForm
     {
@@ -14,10 +14,7 @@ namespace MimumuSDKTest
         {
             InitializeComponent();
             InitializeCommon(TbTitle);
-            //SetSizable(this);
-            //SetSizable(PnlFill);
 
-            FormUtil.SetDarkMode(this, 2);
             TxtDiscordKey.PlaceholderText = "Discord Bot Token";
         }
 

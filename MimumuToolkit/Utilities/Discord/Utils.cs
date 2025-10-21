@@ -5,16 +5,11 @@
 #pragma warning disable CS8600, CS8602, CS8604 
 
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace MimumuSDK.Utilities.Discord
+namespace MimumuToolkit.Utilities.Discord
 {
     public static class Utils
     {

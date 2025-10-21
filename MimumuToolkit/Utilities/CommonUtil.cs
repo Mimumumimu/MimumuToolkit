@@ -1,14 +1,11 @@
 ﻿using Discord;
-using MimumuSDK.Utilities.Discord;
-using System;
-using System.Collections.Generic;
+using MimumuToolkit.Utilities.Discord;
+using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace MimumuSDK.Utilities
+namespace MimumuToolkit.Utilities
 {
     public class CommonUtil
     {
@@ -141,6 +138,72 @@ namespace MimumuSDK.Utilities
             }
 
             return results;
+        }
+
+        public static string? GetAppSetting(string key)
+        {
+            try
+            {
+                return ConfigurationManager.AppSettings[key];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static int GetIntAppSetting(string key, int defaultValue = 0)
+        {
+            try
+            {
+                string? value = GetAppSetting(key);
+                return ConvUtil.ToInt(value ?? defaultValue.ToString(), defaultValue);
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        public static bool GetBoolAppSetting(string key, bool defaultValue = false)
+        {
+            try
+            {
+                string? value = GetAppSetting(key);
+                return ConvUtil.ToBool(value ?? defaultValue.ToString(), defaultValue);
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        public static void SetSetting(string key, string value)
+        {
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings.Remove(key);
+                config.AppSettings.Settings.Add(key, value);
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public static bool ContainsConfigurationSettingKey(string key)
+        {
+            try
+            {
+                return ConfigurationManager.AppSettings.AllKeys.Contains(key);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

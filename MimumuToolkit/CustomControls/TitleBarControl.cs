@@ -1,14 +1,14 @@
-﻿using MimumuSDK.Constants;
-using System;
+﻿using MimumuToolkit.Constants;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
-namespace MimumuSDK.CustomControls
+namespace MimumuToolkit.CustomControls
 {
     public partial class TitleBarControl : UserControl
     {
+        private const int DoubleClickTime = 500; // ミリ秒
+
+        private DateTime m_lastMouseDownTime;
         private Color m_closeButtonBaseForeColor = SystemColors.ControlText;
-        private Color m_closeButtonMouseEnterForeColor = Color.FromArgb(250, 238, 237);
 
         public Button GetCloseButton { get { return BtnClose; } }
 
@@ -23,22 +23,18 @@ namespace MimumuSDK.CustomControls
             base.OnLoad(e);
             if (ParentForm != null)
             {
-                LblTitlle.Text = ParentForm.Text;
+                LblTitle.Text = ParentForm.Text;
             }
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
-            //this.ParentChanged -= TitleBarControl_ParentChanged;
             base.OnHandleDestroyed(e);
         }
 
         private void TitleBarControl_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Y >= FormConstant.ResizeBorderWidth)
-            {
-                DragWindow();
-            }
+            OnMouseDown(e);
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
@@ -49,7 +45,7 @@ namespace MimumuSDK.CustomControls
         private void BtnClose_MouseEnter(object sender, EventArgs e)
         {
             m_closeButtonBaseForeColor = BtnClose.ForeColor;
-            BtnClose.ForeColor = m_closeButtonMouseEnterForeColor;
+            BtnClose.ForeColor = ColorConstants.CloseButtonMouseEnterForeColor;
         }
 
         private void BtnClose_MouseLeave(object sender, EventArgs e)
@@ -57,8 +53,43 @@ namespace MimumuSDK.CustomControls
             BtnClose.ForeColor = m_closeButtonBaseForeColor;
         }
 
-        #region マウスドラッグでウィンドウを移動する処理
+        #region マウス操作系処理
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            DateTime now = DateTime.Now;
+            if ((now - m_lastMouseDownTime).TotalMilliseconds <= DoubleClickTime)
+            {
+                if (ParentForm != null)
+                {
+                    if (ParentForm.WindowState == FormWindowState.Normal)
+                    {
+                        ParentForm.WindowState = FormWindowState.Maximized;
+                        ParentForm.Padding = new Padding(0);
+                    }
+                    else
+                    {
+                        ParentForm.WindowState = FormWindowState.Normal;
+                        ParentForm.Padding = new Padding(FormConstants.PaddingSize);
+                    }
+                }
+                m_lastMouseDownTime = DateTime.MinValue;
+            }
+            else
+            {
+                DragWindow();
+                m_lastMouseDownTime = now;
+            }
+        }
+
+        private void LblTitle_MouseDown(object sender, MouseEventArgs e)
+        {
+            OnMouseDown(e);
+        }
+
+        // マウスドラッグでウィンドウを移動する処理
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]

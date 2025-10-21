@@ -4,12 +4,9 @@
 
 #pragma warning disable CS8602, CS8618, SYSLIB0014
 using Discord;
-using System;
-using System.IO;
 using System.Net;
-using System.Text;
 
-namespace MimumuSDK.Utilities.Discord
+namespace MimumuToolkit.Utilities.Discord
 {
     public class DiscordWebhook
     {

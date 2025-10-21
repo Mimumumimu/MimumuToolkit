@@ -2,11 +2,8 @@
 // Copyright (c) 2017 Minidisc. All rights reserved.
 // Licensed under the MIT License. See LICENSE.txt for full terms.
 
-using MimumuSDK.Utilities.Discord;
+using MimumuToolkit.Utilities.Discord;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 namespace Discord
 {

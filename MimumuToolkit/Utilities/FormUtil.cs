@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MimumuSDK.Utilities
+﻿namespace MimumuToolkit.Utilities
 {
     public class FormUtil
     {
@@ -22,25 +16,28 @@ namespace MimumuSDK.Utilities
 
         public static void SetDarkMode(Control control, int level)
         {
-            if (control is Button btn)
+            if (control.BackColor != Color.Transparent)
             {
-                if (IsCloseButton(control) == true)
+                if (control is Button btn)
                 {
-                    control.BackColor = GetDarkColor(level);
-                    btn.FlatAppearance.BorderColor = control.BackColor;
+                    if (IsCloseButton(control) == true)
+                    {
+                        control.BackColor = GetDarkColor(level);
+                        btn.FlatAppearance.BorderColor = control.BackColor;
+                    }
+                    else
+                    {
+                        level += 2;
+                        control.BackColor = GetDarkColor(level);
+                    }
                 }
                 else
                 {
-                    level += 2;
-                    control.BackColor = GetDarkColor(level);
-                }
-            }
-            else
-            {
-                if (control.BackColor != GetDarkColor(level))
-                {
-                    level += 2;
-                    control.BackColor = GetDarkColor(level);
+                    if (control.BackColor != GetDarkColor(level))
+                    {
+                        level += 2;
+                        control.BackColor = GetDarkColor(level);
+                    }
                 }
             }
             control.ForeColor = DarkModeForeColor;
