@@ -1,5 +1,6 @@
 using MimumuToolkit.Constants;
 using MimumuToolkit.Dialogs;
+using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
 
 namespace MimumuToolkit
@@ -14,17 +15,26 @@ namespace MimumuToolkit
 
         private static NotificationDialog? m_notificationDialog = null;
 
-        public static void ShowNotification(string title, string message)
+        public static void ShowNotification(string title, string url = "", string remarks = "")
+        {
+            LinkEntity link = new LinkEntity(title, url, remarks);
+            ShowNotification([link]);
+        }
+
+        public static void ShowNotification(List<LinkEntity> links)
         {
             if (m_notificationDialog == null)
             {
                 m_notificationDialog = new NotificationDialog();
+                m_notificationDialog.Opacity = 0;
                 m_notificationDialog.Show();
-                return;
+                m_notificationDialog.Visible = false;
+                m_notificationDialog.Opacity = 1;
             }
-            //dlg.Title = title;
-            //dlg.Message = message;
+            m_notificationDialog.SetMesasge(links);
+            m_notificationDialog.TopMost = true;
             m_notificationDialog.Visible = true;
+            m_notificationDialog.TopMost = false;
         }
 
         public static bool IsDarkModeEnabled

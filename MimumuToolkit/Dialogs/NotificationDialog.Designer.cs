@@ -28,20 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            LblTitle = new Label();
+            LLblMessage = new LinkLabel();
+            TmFlash = new System.Windows.Forms.Timer(components);
             SuspendLayout();
+            // 
+            // LblTitle
+            // 
+            LblTitle.AutoSize = true;
+            LblTitle.Font = new Font("Segoe UI", 9F);
+            LblTitle.Location = new Point(15, 15);
+            LblTitle.Name = "LblTitle";
+            LblTitle.Size = new Size(70, 15);
+            LblTitle.TabIndex = 0;
+            LblTitle.Text = "Notification";
+            LblTitle.MouseDown += NotificationDialog_MouseDown;
+            // 
+            // LLblMessage
+            // 
+            LLblMessage.AutoSize = true;
+            LLblMessage.Location = new Point(20, 40);
+            LLblMessage.Name = "LLblMessage";
+            LLblMessage.Size = new Size(98, 42);
+            LLblMessage.TabIndex = 1;
+            LLblMessage.TabStop = true;
+            LLblMessage.Text = "リマインダー\r\n　19:00 目薬";
+            LLblMessage.LinkClicked += LLblMessage_LinkClicked;
+            LLblMessage.MouseUp += LLblMessage_MouseUp;
+            // 
+            // TmFlash
+            // 
+            TmFlash.Interval = 50;
+            TmFlash.Tick += TmFlash_Tick;
             // 
             // NotificationDialog
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(395, 152);
+            ClientSize = new Size(400, 100);
+            Controls.Add(LLblMessage);
+            Controls.Add(LblTitle);
+            Font = new Font("Segoe UI", 12F);
             FormBorderStyle = FormBorderStyle.None;
             Name = "NotificationDialog";
             Resizable = false;
             ShowInBottomRightOnce = true;
             Text = "NotificationDialog";
+            MouseDown += NotificationDialog_MouseDown;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label LblTitle;
+        private LinkLabel LLblMessage;
+        private System.Windows.Forms.Timer TmFlash;
     }
 }

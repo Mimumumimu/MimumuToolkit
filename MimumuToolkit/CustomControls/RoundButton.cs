@@ -10,11 +10,18 @@ namespace MimumuToolkit.CustomControls
 {
     public class RoundButton : Button
     {
-        private int _cornerRadius = 5; // 角の丸みを小さく
-        private Color _borderColor = Color.LightGray; // 薄いグレーの枠線
-        private int _borderWidth = 1;
-        private Color _buttonColor = Color.White; // ボタンの背景色
-        private Color _highlightColor = Color.LightBlue; // ハイライト色
+        // 角の丸みを小さく
+        private int m_cornerRadius = 5;
+        private int m_borderWidth = 1;
+        // 薄いグレーの枠線
+        private Color m_borderColor = Color.LightGray;
+        // ボタンの背景色
+        private Color m_buttonColor = Color.FromArgb(144, 202, 249);
+        // ハイライト色
+        private Color m_highlightColor = Color.FromArgb(66, 165, 245);
+        // クリック時の色
+        private Color m_clickColor = Color.FromArgb(66, 135, 245);
+        private bool m_isClicked = false;
 
         [Category("Appearance")]
         [Description("ボタンの角の半径")]
@@ -22,11 +29,12 @@ namespace MimumuToolkit.CustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int CornerRadius
         {
-            get { return _cornerRadius; }
+            get { return m_cornerRadius; }
             set
             {
-                _cornerRadius = value;
-                Invalidate(); // 再描画を要求
+                m_cornerRadius = value;
+                // 再描画を要求
+                Invalidate();
             }
         }
 
@@ -36,10 +44,11 @@ namespace MimumuToolkit.CustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color BorderColor
         {
-            get { return _borderColor; }
+            get { return m_borderColor; }
             set
             {
-                _borderColor = value;
+                m_borderColor = value;
+                // 再描画を要求
                 Invalidate();
             }
         }
@@ -47,13 +56,13 @@ namespace MimumuToolkit.CustomControls
         [Category("Appearance")]
         [Description("ボタンの背景色")]
         [Browsable(true)]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color ButtonColor
         {
-            get { return _buttonColor; }
+            get { return m_buttonColor; }
             set
             {
-                _buttonColor = value;
+                m_buttonColor = value;
                 Invalidate();
             }
         }
@@ -64,10 +73,26 @@ namespace MimumuToolkit.CustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color HighlightColor
         {
-            get { return _highlightColor; }
+            get { return m_highlightColor; }
             set
             {
-                _highlightColor = value;
+                m_highlightColor = value;
+                // 再描画を要求
+                Invalidate();
+            }
+        }
+
+        [Category("Appearance")]
+        [Description("ボタンのクリック時の色")]
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Color ClickColor
+        {
+            get { return m_clickColor; }
+            set
+            {
+                m_clickColor = value;
+                // 再描画を要求
                 Invalidate();
             }
         }
@@ -78,10 +103,28 @@ namespace MimumuToolkit.CustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int BorderWidth
         {
-            get { return _borderWidth; }
+            get { return m_borderWidth; }
             set
             {
-                _borderWidth = value;
+                m_borderWidth = value;
+                // 再描画を要求
+                Invalidate();
+            }
+        }
+
+        private Control? m_parentControl;
+
+        [Category("Appearance")]
+        [Description("背景色を同期するControl")]
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Control? ParentControl
+        {
+            get { return m_parentControl; }
+            set
+            {
+                m_parentControl = value;
+                // 再描画を要求
                 Invalidate();
             }
         }
@@ -110,23 +153,27 @@ namespace MimumuToolkit.CustomControls
             // ボタンの領域を表すRectangleを作成
             Rectangle rect = new Rectangle(-1, -1, Width + 1, Height + 1);
 
+            // TargetControl が設定されている場合は、その背景色を取得
+            Color controlBackColor = ParentControl?.BackColor ?? this.BackColor;
+
             // 背景を塗りつぶす
-            if (Parent != null)
+            using (Brush backColorBrush = new SolidBrush(controlBackColor))
             {
-                using (Brush backColorBrush = new SolidBrush(Parent.BackColor))
-                {
-                    e.Graphics.FillRectangle(backColorBrush, rect);
-                }
+                e.Graphics.FillRectangle(backColorBrush, rect);
             }
 
             // 角丸のパスを作成
-            GraphicsPath path = RoundedRect(rect, _cornerRadius);
+            GraphicsPath path = RoundedRect(rect, m_cornerRadius);
 
             // ボタンの色を描画
             Color buttonColor;
             {
                 // マウスオーバー時のハイライト表示
-                if (ClientRectangle.Contains(PointToClient(Cursor.Position)))
+                if (m_isClicked)
+                {
+                    buttonColor = ClickColor;
+                }
+                else if (ClientRectangle.Contains(PointToClient(Cursor.Position)))
                 {
                     buttonColor = HighlightColor;
                 }
@@ -141,9 +188,9 @@ namespace MimumuToolkit.CustomControls
             }
 
             // 枠線を描画
-            if (_borderWidth > 0)
+            if (m_borderWidth > 0)
             {
-                using (Pen borderPen = new Pen(_borderColor, _borderWidth))
+                using (Pen borderPen = new Pen(m_borderColor, m_borderWidth))
                 {
                     e.Graphics.DrawPath(borderPen, path);
                 }
@@ -151,7 +198,7 @@ namespace MimumuToolkit.CustomControls
 
             // テキストを描画
             TextRenderer.DrawText(e.Graphics, Text, Font, rect, ForeColor, buttonColor,
-                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
         }
 
 
@@ -193,19 +240,38 @@ namespace MimumuToolkit.CustomControls
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            Invalidate(); // サイズ変更時に再描画
+            // 再描画を要求
+            Invalidate();
         }
 
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            Invalidate(); // 再描画を要求
+            // 再描画を要求
+            Invalidate();
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            Invalidate(); // 再描画を要求
+            // 再描画を要求
+            Invalidate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            m_isClicked = true;
+            // 再描画を要求
+            Invalidate();
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            m_isClicked = false;
+            // 再描画を要求
+            Invalidate();
         }
     }
 }

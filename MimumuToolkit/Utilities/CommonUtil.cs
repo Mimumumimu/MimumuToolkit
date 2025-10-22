@@ -9,6 +9,21 @@ namespace MimumuToolkit.Utilities
 {
     public class CommonUtil
     {
+        public static void ProcessStart(string? pass)
+        {
+            if (string.IsNullOrWhiteSpace(pass) == true)
+            {
+                return;
+            }
+
+            ProcessStartInfo psi = new()
+            {
+                FileName = pass,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+
         public static async Task SendNtfy(string key, string title, string value)
         {
             string escapedTitle = title.Replace("\"", "\\\"");

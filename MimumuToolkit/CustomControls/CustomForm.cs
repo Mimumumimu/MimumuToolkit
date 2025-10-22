@@ -2,7 +2,6 @@
 using MimumuToolkit.Utilities;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
 namespace MimumuToolkit.CustomControls
@@ -56,10 +55,6 @@ namespace MimumuToolkit.CustomControls
         {
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
-            if (MimumuToolkitManager.IsDarkModeEnabled)
-            {
-                FormUtil.SetDarkMode(this, 2);
-            }
         }
 
         /// <summary>
@@ -70,6 +65,15 @@ namespace MimumuToolkit.CustomControls
             base.OnCreateControl();
             base.Padding = m_padding;
             LoadFormLocation();
+        }
+
+       protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (MimumuToolkitManager.IsDarkModeEnabled)
+            {
+                FormUtil.SetDarkMode(this, 2);
+            }
         }
 
         protected void InitializeCommon(TitleBarControl? titleBar = null)
@@ -201,7 +205,10 @@ namespace MimumuToolkit.CustomControls
 
         private void LoadFormLocation()
         {
-            if (string.IsNullOrEmpty(Name)) return;
+            if (string.IsNullOrEmpty(Name))
+            {
+                return;
+            }
 
             try
             {

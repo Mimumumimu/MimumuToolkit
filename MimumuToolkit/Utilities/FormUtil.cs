@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using MimumuToolkit.CustomControls;
+using System.Runtime.InteropServices;
 
 namespace MimumuToolkit.Utilities
 {
@@ -18,27 +19,42 @@ namespace MimumuToolkit.Utilities
 
         public static void SetDarkMode(Control control, int level)
         {
-            if (control.BackColor != Color.Transparent)
+            if (control is RoundButton roundButton)
             {
-                if (control is Button btn)
+                level += 2;
+                roundButton.ButtonColor = GetDarkColor(level);
+            }
+            if (control is LinkLabel linkLabel)
+            {
+                linkLabel.LinkColor = Color.FromArgb(100, 149, 237); // コーンフラワーブルー
+                linkLabel.ActiveLinkColor = Color.FromArgb(65, 105, 225); // ロイヤルブルー
+                linkLabel.VisitedLinkColor = Color.FromArgb(123, 104, 238); // ミディアムスレートブルー
+            }
+            else
+            {
+                if (control.BackColor != Color.Transparent)
                 {
-                    if (IsCloseButton(control) == true)
+                    if (control is Button btn)
                     {
-                        control.BackColor = GetDarkColor(level);
-                        btn.FlatAppearance.BorderColor = control.BackColor;
+                        if (IsCloseButton(control) == true)
+                        {
+                            control.BackColor = GetDarkColor(level);
+                            btn.FlatAppearance.BorderColor = control.BackColor;
+                        }
+                        else
+                        {
+
+                            level += 2;
+                            control.BackColor = GetDarkColor(level);
+                        }
                     }
                     else
                     {
-                        level += 2;
-                        control.BackColor = GetDarkColor(level);
-                    }
-                }
-                else
-                {
-                    if (control.BackColor != GetDarkColor(level))
-                    {
-                        level += 2;
-                        control.BackColor = GetDarkColor(level);
+                        if (control.BackColor != GetDarkColor(level))
+                        {
+                            level += 2;
+                            control.BackColor = GetDarkColor(level);
+                        }
                     }
                 }
             }

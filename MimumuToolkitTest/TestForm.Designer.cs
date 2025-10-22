@@ -30,7 +30,9 @@
         {
             TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
-            roundButton1 = new MimumuToolkit.CustomControls.RoundButton();
+            roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
+            listView1 = new ListView();
+            CbDarkMode = new CheckBox();
             button1 = new Button();
             TxtDiscordKey = new TextBox();
             TbSpeed = new TrackBar();
@@ -39,7 +41,6 @@
             TbVolume = new TrackBar();
             BtnSpeek = new Button();
             TxtSpeek = new TextBox();
-            CbDarkMode = new CheckBox();
             PnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TbSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)TbVolume).BeginInit();
@@ -57,8 +58,9 @@
             // 
             // PnlFill
             // 
+            PnlFill.Controls.Add(roundButton2);
+            PnlFill.Controls.Add(listView1);
             PnlFill.Controls.Add(CbDarkMode);
-            PnlFill.Controls.Add(roundButton1);
             PnlFill.Controls.Add(button1);
             PnlFill.Controls.Add(TxtDiscordKey);
             PnlFill.Controls.Add(TbSpeed);
@@ -74,23 +76,44 @@
             PnlFill.Size = new Size(792, 412);
             PnlFill.TabIndex = 1;
             // 
-            // roundButton1
+            // roundButton2
             // 
-            roundButton1.BackColor = Color.RosyBrown;
-            roundButton1.BorderColor = Color.LightGray;
-            roundButton1.BorderWidth = 1;
-            roundButton1.ButtonColor = Color.White;
-            roundButton1.CornerRadius = 50;
-            roundButton1.FlatAppearance.BorderSize = 0;
-            roundButton1.FlatStyle = FlatStyle.Flat;
-            roundButton1.ForeColor = Color.Black;
-            roundButton1.HighlightColor = Color.LightBlue;
-            roundButton1.Location = new Point(302, 223);
-            roundButton1.Name = "roundButton1";
-            roundButton1.Size = new Size(100, 100);
-            roundButton1.TabIndex = 12;
-            roundButton1.Text = "roundButt";
-            roundButton1.UseVisualStyleBackColor = false;
+            roundButton2.BackColor = Color.Transparent;
+            roundButton2.BorderColor = Color.LightGray;
+            roundButton2.BorderWidth = 1;
+            roundButton2.ButtonColor = Color.FromArgb(144, 202, 249);
+            roundButton2.ClickColor = Color.FromArgb(66, 135, 245);
+            roundButton2.CornerRadius = 30;
+            roundButton2.FlatAppearance.BorderSize = 0;
+            roundButton2.FlatStyle = FlatStyle.Flat;
+            roundButton2.ForeColor = Color.Black;
+            roundButton2.HighlightColor = SystemColors.Highlight;
+            roundButton2.Location = new Point(500, 214);
+            roundButton2.Name = "roundButton2";
+            roundButton2.ParentControl = listView1;
+            roundButton2.Size = new Size(199, 110);
+            roundButton2.TabIndex = 15;
+            roundButton2.Text = "roundButton2";
+            roundButton2.UseVisualStyleBackColor = false;
+            // 
+            // listView1
+            // 
+            listView1.Location = new Point(467, 191);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(264, 180);
+            listView1.TabIndex = 14;
+            listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // CbDarkMode
+            // 
+            CbDarkMode.AutoSize = true;
+            CbDarkMode.Location = new Point(12, 207);
+            CbDarkMode.Name = "CbDarkMode";
+            CbDarkMode.Size = new Size(102, 25);
+            CbDarkMode.TabIndex = 13;
+            CbDarkMode.Text = "checkBox1";
+            CbDarkMode.UseVisualStyleBackColor = true;
+            CbDarkMode.CheckedChanged += CbDarkMode_CheckedChanged;
             // 
             // button1
             // 
@@ -165,17 +188,6 @@
             TxtSpeek.TabIndex = 3;
             TxtSpeek.Text = "せんごくさんは今日も元気だなあ";
             // 
-            // CbDarkMode
-            // 
-            CbDarkMode.AutoSize = true;
-            CbDarkMode.Location = new Point(12, 207);
-            CbDarkMode.Name = "CbDarkMode";
-            CbDarkMode.Size = new Size(102, 25);
-            CbDarkMode.TabIndex = 13;
-            CbDarkMode.Text = "checkBox1";
-            CbDarkMode.UseVisualStyleBackColor = true;
-            CbDarkMode.CheckedChanged += CbDarkMode_CheckedChanged;
-            // 
             // TestForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -205,7 +217,8 @@
         private Label LblVolume;
         private TextBox TxtDiscordKey;
         private Button button1;
-        private MimumuToolkit.CustomControls.RoundButton roundButton1;
         private CheckBox CbDarkMode;
+        private ListView listView1;
+        private MimumuToolkit.CustomControls.RoundButton roundButton2;
     }
 }
