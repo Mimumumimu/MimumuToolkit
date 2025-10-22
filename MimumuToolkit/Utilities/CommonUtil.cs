@@ -83,6 +83,11 @@ namespace MimumuToolkit.Utilities
 
         public static void SpeakText(string value, int speed = 0, int volume = 100)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+
             Task.Run(() =>
             {
                 try

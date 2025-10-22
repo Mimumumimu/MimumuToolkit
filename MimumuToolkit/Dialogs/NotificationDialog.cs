@@ -10,6 +10,7 @@ namespace MimumuToolkit.Dialogs
     public partial class NotificationDialog : CustomForm
     {
         private Color m_originalBackColor;
+        private string m_speakMessage = string.Empty;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title
@@ -25,29 +26,18 @@ namespace MimumuToolkit.Dialogs
             set { LLblMessage.Text = value; }
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public NotificationDialog()
         {
-            base.OnVisibleChanged(e);
-            if (Visible)
-            {
-                // フォームが表示されたときの処理
-                Debug.WriteLine("NotificationDialog が表示されました。");
-                FlashForm();
-            }
-            else
-            {
-                // フォームが非表示になったときの処理
-                Debug.WriteLine("NotificationDialog が非表示になりました。");
-            }
+            InitializeComponent();
         }
 
-        private async void FlashForm()
+        private void LLblMessage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            m_originalBackColor = this.BackColor;
-            TmFlash.Start();
-            await Task.Delay(300);
-            TmFlash.Stop();
-            this.BackColor = m_originalBackColor;
+            if (e.Link?.LinkData == null)
+            {
+                return;
+            }
+            CommonUtil.ProcessStart(e.Link.LinkData.ToString());
         }
 
         private void TmFlash_Tick(object sender, EventArgs e)
@@ -62,8 +52,7 @@ namespace MimumuToolkit.Dialogs
             }
         }
 
-
-        public void SetMesasge(List<LinkEntity> links)
+        public void ShowNotification(List<LinkEntity> links)
         {
             // 現在の位置とサイズを保存
             Point originalLocation = this.Location;
@@ -72,12 +61,19 @@ namespace MimumuToolkit.Dialogs
             LLblMessage.Links.Clear();
 
             StringBuilder sb = new();
+            StringBuilder sbSpeak = new();
             int currentPos = 0;
             string lineBreak = "\n";
             foreach (var linkInfo in links)
             {
                 string linkValue = string.Format("{0}{1}　{2}{1}", linkInfo.Title, lineBreak, linkInfo.Remarks);
                 sb.Append(linkValue);
+
+                if (sbSpeak.Length > 0)
+                {
+                    sbSpeak.Append("、続いて、");
+                }
+                sbSpeak.Append(linkInfo.Title);
 
                 //LinkLabel.Linkを作成して追加
                 LinkLabel.Link link = new(currentPos, linkInfo.Title.Length)
@@ -89,6 +85,7 @@ namespace MimumuToolkit.Dialogs
                 currentPos += linkValue.Length;
             }
             LLblMessage.Text = sb.ToString();
+            m_speakMessage = sbSpeak.ToString();
 
             // テキストのサイズを測定してフォームの高さを調整する
             using (Graphics g = this.CreateGraphics())
@@ -104,7 +101,8 @@ namespace MimumuToolkit.Dialogs
 
                     // 必要な追加の高さを計算
                     int additionalHeight = (int)((lineCount - 3) * fontHeight);
-                    this.Height = 100 + additionalHeight; // 基本の高さ100に加算
+                    // 基本の高さ100に加算
+                    this.Height = 100 + additionalHeight;
                 }
                 else
                 {
@@ -118,29 +116,27 @@ namespace MimumuToolkit.Dialogs
 
             // 位置を調整 (上に伸びるように)
             this.Location = new Point(originalLocation.X - deltaWidth, originalLocation.Y - deltaHeight);
-            SaveFormLocation();
+
+            this.TopMost = true;
+            this.Visible = true;
+            this.TopMost = false;
+            CommonUtil.SpeakText(m_speakMessage, volume: 50);
+            FlashForm();
         }
 
-        public NotificationDialog()
+        private async void FlashForm()
         {
-            InitializeComponent();
-            LblTitle.Text = "Notification";
-        }
-
-        private void LLblMessage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (e.Link?.LinkData == null)
-            {
-                return;
-            }
-            CommonUtil.ProcessStart(e.Link.LinkData.ToString());
+            m_originalBackColor = this.BackColor;
+            TmFlash.Start();
+            await Task.Delay(300);
+            TmFlash.Stop();
+            this.BackColor = m_originalBackColor;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
 
-            SaveFormLocation();
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 this.Visible = false;
@@ -160,6 +156,7 @@ namespace MimumuToolkit.Dialogs
         {
             Point initialLocation = new(this.Location.X, this.Location.Y);
             FormUtil.DragWindow(this);
+            SaveFormLocation();
             if (initialLocation.X == this.Location.X &&
                 initialLocation.Y == this.Location.Y)
             {

@@ -17,7 +17,7 @@ namespace MimumuToolkit
 
         public static void ShowNotification(string title, string url = "", string remarks = "")
         {
-            LinkEntity link = new LinkEntity(title, url, remarks);
+            LinkEntity link = new(title, url, remarks);
             ShowNotification([link]);
         }
 
@@ -31,10 +31,7 @@ namespace MimumuToolkit
                 m_notificationDialog.Visible = false;
                 m_notificationDialog.Opacity = 1;
             }
-            m_notificationDialog.SetMesasge(links);
-            m_notificationDialog.TopMost = true;
-            m_notificationDialog.Visible = true;
-            m_notificationDialog.TopMost = false;
+            m_notificationDialog.ShowNotification(links);
         }
 
         public static bool IsDarkModeEnabled
