@@ -4,11 +4,69 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.Json;
 
 namespace MimumuToolkit.Utilities
 {
     public class CommonUtil
     {
+        private static readonly string DataDirectory = Path.Combine(AppContext.BaseDirectory, "Data");
+
+
+        /// <summary>
+        /// オブジェクトをJSONファイルに保存します。
+        /// </summary>
+        /// <param name="obj">保存するオブジェクト。</param>
+        /// <param name="fileName">ファイル名。</param>
+        public static void SaveToJsonFile(object obj, string fileName)
+        {
+            // Dataディレクトリが存在しない場合は作成する
+            if (Directory.Exists(DataDirectory) == false)
+            {
+                Directory.CreateDirectory(DataDirectory);
+            }
+
+            string filePath = Path.Combine(DataDirectory, fileName);
+
+            // JsonSerializerOptionsを設定して、インデントと日本語文字のエスケープを処理する
+            var options = new JsonSerializerOptions
+            {
+                // インデントを有効にする
+                WriteIndented = true,
+                // 日本語文字をエスケープしない
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            };
+
+            string jsonString = JsonSerializer.Serialize(obj, options);
+            File.WriteAllText(filePath, jsonString);
+        }
+
+        /// <summary>
+        /// JSONファイルからオブジェクトを読み込みます。
+        /// </summary>
+        /// <typeparam name="T">オブジェクトの型。</typeparam>
+        /// <param name="fileName">ファイル名。</param>
+        /// <returns>読み込まれたオブジェクト。ファイルが存在しない場合、または読み込みに失敗した場合はnull。</returns>
+        public static T? LoadFromJsonFile<T>(string fileName)
+        {
+            string filePath = Path.Combine(DataDirectory, fileName);
+
+            if (!File.Exists(filePath))
+            {
+                return default;
+            }
+
+            try
+            {
+                string jsonString = File.ReadAllText(filePath);
+                return JsonSerializer.Deserialize<T>(jsonString);
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
         public static void ProcessStart(string? pass)
         {
             if (string.IsNullOrWhiteSpace(pass) == true)
@@ -160,6 +218,8 @@ namespace MimumuToolkit.Utilities
             return results;
         }
 
+        #region AppSettings操作
+
         public static string? GetAppSetting(string key)
         {
             try
@@ -226,5 +286,6 @@ namespace MimumuToolkit.Utilities
             }
         }
 
+        #endregion
     }
 }

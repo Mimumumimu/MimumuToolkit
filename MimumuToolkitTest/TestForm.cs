@@ -31,7 +31,7 @@ namespace MimumuToolkitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MimumuToolkitManager.SetTimer(30, ShowTest);
+            MimumuToolkitManager.SetTimer(5, ShowTest);
 
         }
 
@@ -45,15 +45,20 @@ namespace MimumuToolkitTest
             }
             else
             {
-                List<LinkEntity> links =
-                [
-                    new LinkEntity("Google", "https://www.google.com", "検索エンジンの大手"),
-                    new LinkEntity("Yahoo!", "https://www.yahoo.co.jp", "日本で人気のポータルサイト"),
-                    new LinkEntity("Bing", "https://www.bing.com", "Microsoftの検索エンジン"),
-                    new LinkEntity("DuckDuckGo", "https://duckduckgo.com", "プライバシー重視の検索エンジン"),
-                ];
+                List<LinkEntity> links = CommonUtil.LoadFromJsonFile<List<LinkEntity>>("links.json") ?? [];
+                if (links.Count == 0)
+                {
+                    links.Add(new LinkEntity("Google", "https://www.google.com", "検索エンジンの大手"));
+                    links.Add(new LinkEntity("Yahoo!", "https://www.yahoo.co.jp", "日本で人気のポータルサイト"));
+                    links.Add(new LinkEntity("Bing", "https://www.bing.com", "Microsoftの検索エンジン"));
+                    links.Add(new LinkEntity("DuckDuckGo", "https://duckduckgo.com", "プライバシー重視の検索エンジン"));
+                }
+
                 MimumuToolkitManager.ShowNotification(links);
                 a = true;
+
+
+                CommonUtil.SaveToJsonFile(links, "links.json");
             }
         }
 
