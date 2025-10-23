@@ -27,11 +27,17 @@ namespace MimumuToolkitTest
             CommonUtil.SpeakText(TxtSpeek.Text, TbSpeed.Value, TbVolume.Value);
         }
 
-        bool a = true;
+
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            MimumuToolkitManager.SetTimer(30, ShowTest);
+
+        }
+
+        bool a = true;
+        private void ShowTest()
+        {
             if (a)
             {
                 MimumuToolkitManager.ShowNotification("あああ");
@@ -61,6 +67,11 @@ namespace MimumuToolkitTest
             {
                 MimumuToolkitManager.IsDarkModeEnabled = false;
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MimumuToolkitManager.RemoveTimer(ShowTest);
         }
     }
 }

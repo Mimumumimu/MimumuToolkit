@@ -11,7 +11,6 @@ namespace MimumuToolkit
 
         //public static MimumuSDKManager Instance { get { return lazy.Value; } }
 
-        private static bool? m_isDarkModeEnabled;
 
         private static NotificationDialog? m_notificationDialog = null;
 
@@ -34,6 +33,8 @@ namespace MimumuToolkit
             m_notificationDialog.ShowNotification(links);
         }
 
+
+        private static bool? m_isDarkModeEnabled;
         public static bool IsDarkModeEnabled
         {
             get
@@ -62,5 +63,134 @@ namespace MimumuToolkit
                 CommonUtil.SetSetting(CommonConstants.AppConfigKeys.DarkModeEnabledKey, m_isDarkModeEnabled.Value.ToString());
             }
         }
+
+        private static bool? m_isNotificationSoundEnabled;
+        public static bool IsNotificationSoundEnabled
+        {
+            get
+            {
+                if (m_isNotificationSoundEnabled == null)
+                {
+                    if (CommonUtil.ContainsConfigurationSettingKey(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey) == true)
+                    {
+                        m_isNotificationSoundEnabled = CommonUtil.GetBoolAppSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey);
+                    }
+                    else
+                    {
+                        m_isNotificationSoundEnabled = true;
+                        CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, m_isNotificationSoundEnabled.Value.ToString());
+                    }
+                }
+                return m_isNotificationSoundEnabled.Value;
+            }
+            set
+            {
+                m_isNotificationSoundEnabled = value;
+                if (m_isNotificationSoundEnabled == null)
+                {
+                    m_isNotificationSoundEnabled = true;
+                }
+                CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, m_isNotificationSoundEnabled.Value.ToString());
+            }
+        }
+
+        #region タイマー関連
+
+        private static SynchronizationContext? m_uiContext;
+        private static PeriodicTimer? m_periodicTimer;
+        private static readonly List<TimerEntity> m_timers = [];
+
+        public static void SetTimer(int intervalseconds, Action action)
+        {
+            if (m_uiContext == null)
+            {
+                StartPeriodicTimer();
+            }
+
+            var timer = m_timers.FirstOrDefault(t => t.ElapsedAction == action);
+            if (timer == null)
+            {
+                timer = new TimerEntity(intervalseconds, action);
+                m_timers.Add(timer);
+            }
+            else
+            {
+                // 既存のタイマーがある場合はカウンターをリセット
+                timer.LastElapsedTime = DateTime.MinValue;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// タイマーからアクションを削除します。
+        /// </summary>
+        /// <param name="action">削除するアクション</param>
+        public static void RemoveTimer(Action action)
+        {
+            var timer = m_timers.FirstOrDefault(t => t.ElapsedAction == action);
+            if (timer == null)
+            {
+                return;
+            }
+
+            timer.ElapsedAction = null;
+            m_timers.Remove(timer);
+
+            // タイマーが空になったらタイマーを停止する
+            if (m_timers.Count == 0)
+            {
+                StopAllTimer();
+            }
+        }
+
+        public static void StopAllTimer()
+        {
+            foreach (var timer in m_timers)
+            {
+                timer.ElapsedAction = null;
+            }
+            m_timers.Clear();
+            if (m_periodicTimer != null)
+            {
+                m_periodicTimer.Dispose();
+                m_periodicTimer = null;
+            }
+            m_uiContext = null;
+        }
+
+        private static async void StartPeriodicTimer()
+        {
+            m_uiContext = SynchronizationContext.Current;
+            if (m_periodicTimer != null)
+            {
+                m_periodicTimer.Dispose();
+                m_periodicTimer = null;
+            }
+            m_periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+
+            while (await m_periodicTimer.WaitForNextTickAsync())
+            {
+                DateTime now = DateTime.Now;
+                foreach (var timer in m_timers)
+                {
+                    // 時間が閾値を超えたかチェック
+                    if ((now - timer.LastElapsedTime).TotalSeconds >= timer.IntervalSeconds)
+                    {
+                        // 経過時間を更新
+                        timer.LastElapsedTime = now;
+
+                        // UIスレッドでアクションを実行
+                        m_uiContext?.Post(_ =>
+                        {
+                            timer.ElapsedAction?.Invoke();
+                        }, null);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

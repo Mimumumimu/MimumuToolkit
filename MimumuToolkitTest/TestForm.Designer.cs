@@ -30,6 +30,7 @@
         {
             TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
+            button2 = new Button();
             roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
             listView1 = new ListView();
             CbDarkMode = new CheckBox();
@@ -58,6 +59,7 @@
             // 
             // PnlFill
             // 
+            PnlFill.Controls.Add(button2);
             PnlFill.Controls.Add(roundButton2);
             PnlFill.Controls.Add(listView1);
             PnlFill.Controls.Add(CbDarkMode);
@@ -76,6 +78,16 @@
             PnlFill.Size = new Size(792, 412);
             PnlFill.TabIndex = 1;
             // 
+            // button2
+            // 
+            button2.Location = new Point(143, 235);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 16;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // roundButton2
             // 
             roundButton2.BackColor = Color.Transparent;
@@ -83,7 +95,7 @@
             roundButton2.BorderWidth = 1;
             roundButton2.ButtonColor = Color.FromArgb(144, 202, 249);
             roundButton2.ClickColor = Color.FromArgb(66, 135, 245);
-            roundButton2.CornerRadius = 30;
+            roundButton2.CornerRadius = 15;
             roundButton2.FlatAppearance.BorderSize = 0;
             roundButton2.FlatStyle = FlatStyle.Flat;
             roundButton2.ForeColor = Color.Black;
@@ -91,9 +103,9 @@
             roundButton2.Location = new Point(500, 214);
             roundButton2.Name = "roundButton2";
             roundButton2.ParentControl = listView1;
-            roundButton2.Size = new Size(199, 110);
+            roundButton2.Size = new Size(30, 30);
             roundButton2.TabIndex = 15;
-            roundButton2.Text = "roundButton2";
+            roundButton2.Text = "＋";
             roundButton2.UseVisualStyleBackColor = false;
             // 
             // listView1
@@ -220,5 +232,6 @@
         private CheckBox CbDarkMode;
         private ListView listView1;
         private MimumuToolkit.CustomControls.RoundButton roundButton2;
+        private Button button2;
     }
 }

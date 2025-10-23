@@ -120,7 +120,10 @@ namespace MimumuToolkit.Dialogs
             this.TopMost = true;
             this.Visible = true;
             this.TopMost = false;
-            CommonUtil.SpeakText(m_speakMessage, volume: 50);
+            if (MimumuToolkitManager.IsNotificationSoundEnabled == true)
+            {
+                CommonUtil.SpeakText(m_speakMessage, volume: 50);
+            }
             FlashForm();
         }
 

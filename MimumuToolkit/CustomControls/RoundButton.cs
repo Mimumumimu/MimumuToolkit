@@ -151,7 +151,9 @@ namespace MimumuToolkit.CustomControls
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             // ボタンの領域を表すRectangleを作成
-            Rectangle rect = new Rectangle(-1, -1, Width + 1, Height + 1);
+            Rectangle rect = new(-1, -1, Width + 1, Height + 1);
+            // テキスト描画用のRectangleを作成(微調整含む)
+            Rectangle rectText = new(1, -1, Width, Height);
 
             // TargetControl が設定されている場合は、その背景色を取得
             Color controlBackColor = ParentControl?.BackColor ?? this.BackColor;
@@ -187,6 +189,10 @@ namespace MimumuToolkit.CustomControls
                 }
             }
 
+            // テキストを描画
+            TextRenderer.DrawText(e.Graphics, Text, Font, rectText, ForeColor, buttonColor,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+
             // 枠線を描画
             if (m_borderWidth > 0)
             {
@@ -195,10 +201,6 @@ namespace MimumuToolkit.CustomControls
                     e.Graphics.DrawPath(borderPen, path);
                 }
             }
-
-            // テキストを描画
-            TextRenderer.DrawText(e.Graphics, Text, Font, rect, ForeColor, buttonColor,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
         }
 
 

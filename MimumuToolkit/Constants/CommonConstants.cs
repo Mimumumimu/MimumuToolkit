@@ -8,6 +8,7 @@
             internal const string SDKPrefix = "MimumuToolkit_";
 
             internal const string DarkModeEnabledKey = SDKPrefix + "IsDarkModeEnabled";
+            internal const string NotificationSoundEnabledKey = SDKPrefix + "IsNotificationSoundEnabled";
             internal const string LocationXKeyFormat = SDKPrefix + "{0}_LocationX";
             internal const string LocationYKeyFormat = SDKPrefix + "{0}_LocationY";
 
