@@ -9,6 +9,7 @@
 
             internal const string DarkModeEnabledKey = SDKPrefix + "IsDarkModeEnabled";
             internal const string NotificationSoundEnabledKey = SDKPrefix + "IsNotificationSoundEnabled";
+            internal const string NotificationFlashEnabledKey = SDKPrefix + "IsNotificationFlashEnabled";
             internal const string LocationXKeyFormat = SDKPrefix + "{0}_LocationX";
             internal const string LocationYKeyFormat = SDKPrefix + "{0}_LocationY";
 

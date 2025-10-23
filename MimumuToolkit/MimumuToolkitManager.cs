@@ -41,15 +41,7 @@ namespace MimumuToolkit
             {
                 if (m_isDarkModeEnabled == null)
                 {
-                    if (CommonUtil.ContainsConfigurationSettingKey(CommonConstants.AppConfigKeys.DarkModeEnabledKey) == true)
-                    {
-                        m_isDarkModeEnabled = CommonUtil.GetBoolAppSetting(CommonConstants.AppConfigKeys.DarkModeEnabledKey);
-                    }
-                    else
-                    {
-                        m_isDarkModeEnabled = false;
-                        CommonUtil.SetSetting(CommonConstants.AppConfigKeys.DarkModeEnabledKey, m_isDarkModeEnabled.Value.ToString());
-                    }
+                    m_isDarkModeEnabled = GetSetting(CommonConstants.AppConfigKeys.DarkModeEnabledKey, false);
                 }
                 return m_isDarkModeEnabled.Value;
             }
@@ -71,15 +63,7 @@ namespace MimumuToolkit
             {
                 if (m_isNotificationSoundEnabled == null)
                 {
-                    if (CommonUtil.ContainsConfigurationSettingKey(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey) == true)
-                    {
-                        m_isNotificationSoundEnabled = CommonUtil.GetBoolAppSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey);
-                    }
-                    else
-                    {
-                        m_isNotificationSoundEnabled = true;
-                        CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, m_isNotificationSoundEnabled.Value.ToString());
-                    }
+                    m_isNotificationSoundEnabled = GetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, true);
                 }
                 return m_isNotificationSoundEnabled.Value;
             }
@@ -91,6 +75,56 @@ namespace MimumuToolkit
                     m_isNotificationSoundEnabled = true;
                 }
                 CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, m_isNotificationSoundEnabled.Value.ToString());
+            }
+        }
+
+        private static bool? m_isNotificationFlashEnabled;
+        public static bool IsNotificationFlashEnabled
+        {
+            get
+            {
+                if (m_isNotificationFlashEnabled == null)
+                {
+                    m_isNotificationFlashEnabled = GetSetting(CommonConstants.AppConfigKeys.NotificationFlashEnabledKey, true);
+                }
+                return m_isNotificationFlashEnabled.Value;
+            }
+            set
+            {
+                m_isNotificationFlashEnabled = value;
+                if (m_isNotificationFlashEnabled == null)
+                {
+                    m_isNotificationFlashEnabled = true;
+                }
+                CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationFlashEnabledKey, m_isNotificationFlashEnabled.Value.ToString());
+            }
+        }
+
+        private static T GetSetting<T>(string key, T defaultValue)
+        {
+            string? stringValue;
+            if (CommonUtil.ContainsConfigurationSettingKey(key))
+            {
+                stringValue = CommonUtil.GetAppSetting(key);
+                if (stringValue == null)
+                {
+                    CommonUtil.SetSetting(key, defaultValue!.ToString() ?? string.Empty);
+                    return defaultValue;
+                }
+            }
+            else
+            {
+                CommonUtil.SetSetting(key, defaultValue!.ToString() ?? string.Empty);
+                return defaultValue;
+            }
+
+            try
+            {
+                return (T)Convert.ChangeType(stringValue, typeof(T));
+            }
+            catch
+            {
+                return defaultValue;
             }
         }
 

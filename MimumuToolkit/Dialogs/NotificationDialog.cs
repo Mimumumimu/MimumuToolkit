@@ -31,6 +31,23 @@ namespace MimumuToolkit.Dialogs
             InitializeComponent();
         }
 
+        private void NotificationDialog_MouseDown(object sender, MouseEventArgs e)
+        {
+            Point initialLocation = new(this.Location.X, this.Location.Y);
+            FormUtil.DragWindow(this);
+            SaveFormLocation();
+            if (initialLocation.X == this.Location.X &&
+                initialLocation.Y == this.Location.Y)
+            {
+                Close();
+            }
+        }
+
+        private void LLblMessage_MouseUp(object sender, MouseEventArgs e)
+        {
+            NotificationDialog_MouseDown(sender, e);
+        }
+
         private void LLblMessage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (e.Link?.LinkData == null)
@@ -50,6 +67,19 @@ namespace MimumuToolkit.Dialogs
             {
                 this.BackColor = Color.Yellow;
             }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                this.Visible = false;
+                e.Cancel = true;
+            }
+
+            return;
         }
 
         public void ShowNotification(List<LinkEntity> links)
@@ -124,7 +154,10 @@ namespace MimumuToolkit.Dialogs
             {
                 CommonUtil.SpeakText(m_speakMessage, volume: 50);
             }
-            FlashForm();
+            if (MimumuToolkitManager.IsNotificationFlashEnabled == true)
+            {
+                FlashForm();
+            }
         }
 
         private async void FlashForm()
@@ -136,40 +169,15 @@ namespace MimumuToolkit.Dialogs
             this.BackColor = m_originalBackColor;
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
 
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                this.Visible = false;
-                e.Cancel = true;
-            }
+        // 不要だったら消す
+        //protected override void OnMouseDown(MouseEventArgs e)
+        //{
+        //    base.OnMouseDown(e);
 
-            return;
-        }
+        //}
 
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
 
-        }
 
-        private void NotificationDialog_MouseDown(object sender, MouseEventArgs e)
-        {
-            Point initialLocation = new(this.Location.X, this.Location.Y);
-            FormUtil.DragWindow(this);
-            SaveFormLocation();
-            if (initialLocation.X == this.Location.X &&
-                initialLocation.Y == this.Location.Y)
-            {
-                Close();
-            }
-        }
-
-        private void LLblMessage_MouseUp(object sender, MouseEventArgs e)
-        {
-            NotificationDialog_MouseDown(sender, e);
-        }
     }
 }
