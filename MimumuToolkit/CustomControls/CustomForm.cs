@@ -32,7 +32,7 @@ namespace MimumuToolkit.CustomControls
         /// <summary>
         /// サイズ変更可否
         /// </summary>
-        [Category("Behavior")]
+        [Category("Custom")]
         [Description("フォームのサイズ変更を許可するかどうかを設定します。")]
         [DefaultValue(true)]
         public bool Resizable { get; set; } = true;
@@ -40,7 +40,7 @@ namespace MimumuToolkit.CustomControls
         /// <summary>
         /// 初回起動時のみフォームを右下に表示するかどうか
         /// </summary>
-        [Category("Appearance")]
+        [Category("Custom")]
         [Description("初回起動時のみフォームを右下に表示するかどうかを設定します。")]
         [DefaultValue(false)]
         public bool ShowInBottomRightOnce {

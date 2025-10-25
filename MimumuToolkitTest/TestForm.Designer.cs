@@ -30,8 +30,8 @@
         {
             TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
-            checkedListBox1 = new CheckedListBox();
             roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
+            checkedListBox1 = new CheckedListBox();
             CbDarkMode = new CheckBox();
             button1 = new Button();
             TxtDiscordKey = new TextBox();
@@ -76,15 +76,6 @@
             PnlFill.Size = new Size(792, 412);
             PnlFill.TabIndex = 1;
             // 
-            // checkedListBox1
-            // 
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(new object[] { "ああ", "あ", "あ", "あ" });
-            checkedListBox1.Location = new Point(431, 166);
-            checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(138, 124);
-            checkedListBox1.TabIndex = 18;
-            // 
             // roundButton2
             // 
             roundButton2.BackColor = Color.Transparent;
@@ -97,12 +88,22 @@
             roundButton2.FlatStyle = FlatStyle.Flat;
             roundButton2.ForeColor = Color.Black;
             roundButton2.HighlightColor = SystemColors.Highlight;
-            roundButton2.Location = new Point(516, 181);
+            roundButton2.Location = new Point(471, 155);
             roundButton2.Name = "roundButton2";
+            roundButton2.ParentControl = null;
             roundButton2.Size = new Size(30, 30);
             roundButton2.TabIndex = 15;
             roundButton2.Text = "＋";
             roundButton2.UseVisualStyleBackColor = false;
+            // 
+            // checkedListBox1
+            // 
+            checkedListBox1.FormattingEnabled = true;
+            checkedListBox1.Items.AddRange(new object[] { "ああ", "あ", "あ", "あ" });
+            checkedListBox1.Location = new Point(431, 166);
+            checkedListBox1.Name = "checkedListBox1";
+            checkedListBox1.Size = new Size(138, 124);
+            checkedListBox1.TabIndex = 18;
             // 
             // CbDarkMode
             // 
