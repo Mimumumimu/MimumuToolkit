@@ -79,7 +79,10 @@ namespace MimumuToolkit.Utilities
                 FileName = pass,
                 UseShellExecute = true
             };
+            // ウィルスソフトの誤検知 いったんデバッグのみ有効化
+#if DEBUG
             Process.Start(psi);
+#endif
         }
 
         public static async Task SendNtfy(string key, string title, string value)
@@ -150,6 +153,8 @@ namespace MimumuToolkit.Utilities
             {
                 try
                 {
+                    // ウィルスソフトの誤検知 いったんデバッグのみ有効化
+#if DEBUG
                     // PowerShellプロセスを起動
                     ProcessStartInfo processStartInfo = new ProcessStartInfo
                     {
@@ -187,6 +192,7 @@ namespace MimumuToolkit.Utilities
 
                         powerShellProcess.WaitForExit();
                     }
+#endif
                 }
                 catch (Exception ex)
                 {

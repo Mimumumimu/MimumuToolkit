@@ -1,4 +1,6 @@
-﻿namespace MimumuToolkit.Utilities
+﻿using MimumuToolkit.Constants;
+
+namespace MimumuToolkit.Utilities
 {
     public class ConvUtil
     {
@@ -87,6 +89,20 @@
             int minute = ToInt(strTime.Substring(2, 2));
             DateTime now = DateTime.Now;
             return new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+        }
+        public static CommonConstants.DayOfWeekFlags DayOfWeekToDayOfWeekFlags(DayOfWeek dayOfWeek)
+        {
+            return dayOfWeek switch
+            {
+                DayOfWeek.Monday => CommonConstants.DayOfWeekFlags.Monday,
+                DayOfWeek.Tuesday => CommonConstants.DayOfWeekFlags.Tuesday,
+                DayOfWeek.Wednesday => CommonConstants.DayOfWeekFlags.Wednesday,
+                DayOfWeek.Thursday => CommonConstants.DayOfWeekFlags.Thursday,
+                DayOfWeek.Friday => CommonConstants.DayOfWeekFlags.Friday,
+                DayOfWeek.Saturday => CommonConstants.DayOfWeekFlags.Saturday,
+                DayOfWeek.Sunday => CommonConstants.DayOfWeekFlags.Sunday,
+                _ => CommonConstants.DayOfWeekFlags.None
+            };
         }
 
         public static string DayOfWeekToString(DayOfWeek dayOfWeek)

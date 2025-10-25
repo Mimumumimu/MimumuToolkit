@@ -5,12 +5,15 @@ using MimumuToolkit.Utilities;
 
 namespace MimumuToolkit
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// 継承する意味がないので、sealed で明示的に「これは継承されるべきではない」と宣言しています
+    /// </remarks>
     public sealed class MimumuToolkitManager
     {
-        //private static readonly Lazy<MimumuSDKManager> lazy = new(() => new MimumuSDKManager());
-
-        //public static MimumuSDKManager Instance { get { return lazy.Value; } }
-
+        public static int GroupNo { get; set; } = CommonConstants.DefaultGroupNo;
 
         private static NotificationDialog? m_notificationDialog = null;
 

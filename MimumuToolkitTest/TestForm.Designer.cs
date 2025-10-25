@@ -28,17 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem3 = new ListViewItem("あああ");
-            ListViewItem listViewItem4 = new ListViewItem("いいい");
             TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
             checkedListBox1 = new CheckedListBox();
-            button2 = new Button();
             roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
-            LvMain = new ListView();
-            columnHeader1 = new ColumnHeader();
-            columnHeader2 = new ColumnHeader();
-            columnHeader3 = new ColumnHeader();
             CbDarkMode = new CheckBox();
             button1 = new Button();
             TxtDiscordKey = new TextBox();
@@ -65,10 +58,8 @@
             // 
             // PnlFill
             // 
-            PnlFill.Controls.Add(checkedListBox1);
-            PnlFill.Controls.Add(button2);
             PnlFill.Controls.Add(roundButton2);
-            PnlFill.Controls.Add(LvMain);
+            PnlFill.Controls.Add(checkedListBox1);
             PnlFill.Controls.Add(CbDarkMode);
             PnlFill.Controls.Add(button1);
             PnlFill.Controls.Add(TxtDiscordKey);
@@ -94,16 +85,6 @@
             checkedListBox1.Size = new Size(138, 124);
             checkedListBox1.TabIndex = 18;
             // 
-            // button2
-            // 
-            button2.Location = new Point(143, 235);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 16;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
             // roundButton2
             // 
             roundButton2.BackColor = Color.Transparent;
@@ -116,28 +97,12 @@
             roundButton2.FlatStyle = FlatStyle.Flat;
             roundButton2.ForeColor = Color.Black;
             roundButton2.HighlightColor = SystemColors.Highlight;
-            roundButton2.Location = new Point(656, 207);
+            roundButton2.Location = new Point(516, 181);
             roundButton2.Name = "roundButton2";
-            roundButton2.ParentControl = LvMain;
             roundButton2.Size = new Size(30, 30);
             roundButton2.TabIndex = 15;
             roundButton2.Text = "＋";
             roundButton2.UseVisualStyleBackColor = false;
-            // 
-            // LvMain
-            // 
-            LvMain.CheckBoxes = true;
-            LvMain.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
-            LvMain.FullRowSelect = true;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem4.StateImageIndex = 0;
-            LvMain.Items.AddRange(new ListViewItem[] { listViewItem3, listViewItem4 });
-            LvMain.Location = new Point(585, 135);
-            LvMain.Name = "LvMain";
-            LvMain.Size = new Size(264, 180);
-            LvMain.TabIndex = 14;
-            LvMain.UseCompatibleStateImageBehavior = false;
-            LvMain.View = View.Details;
             // 
             // CbDarkMode
             // 
@@ -254,11 +219,6 @@
         private Button button1;
         private CheckBox CbDarkMode;
         private MimumuToolkit.CustomControls.RoundButton roundButton2;
-        private Button button2;
         private CheckedListBox checkedListBox1;
-        private ListView LvMain;
-        private ColumnHeader columnHeader1;
-        private ColumnHeader columnHeader2;
-        private ColumnHeader columnHeader3;
     }
 }

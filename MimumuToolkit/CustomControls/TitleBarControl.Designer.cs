@@ -56,6 +56,7 @@
             BtnClose.Name = "BtnClose";
             BtnClose.Size = new Size(30, 38);
             BtnClose.TabIndex = 1;
+            BtnClose.TabStop = false;
             BtnClose.Text = "×";
             BtnClose.UseVisualStyleBackColor = false;
             BtnClose.Click += BtnClose_Click;
@@ -79,6 +80,6 @@
         #endregion
 
         private Label LblTitle;
-        public Button BtnClose;
+        private Button BtnClose;
     }
 }

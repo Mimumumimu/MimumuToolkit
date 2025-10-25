@@ -1,5 +1,8 @@
-﻿using MimumuToolkit.CustomControls;
+﻿using MimumuToolkit.Constants;
+using MimumuToolkit.CustomControls;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace MimumuToolkit.Utilities
 {
@@ -30,6 +33,14 @@ namespace MimumuToolkit.Utilities
                 linkLabel.ActiveLinkColor = Color.FromArgb(65, 105, 225); // ロイヤルブルー
                 linkLabel.VisitedLinkColor = Color.FromArgb(123, 104, 238); // ミディアムスレートブルー
             }
+            else if (control is FlatCheckBox checkBox)
+            {
+                if (checkBox.Appearance == Appearance.Button && checkBox.FlatStyle == FlatStyle.Flat)
+                {
+                    level += 2;
+                    checkBox.BackColor = GetDarkColor(level);
+                }
+            }
             else
             {
                 if (control.BackColor != Color.Transparent)
@@ -48,6 +59,7 @@ namespace MimumuToolkit.Utilities
                             control.BackColor = GetDarkColor(level);
                         }
                     }
+              
                     else
                     {
                         if (control.BackColor != GetDarkColor(level))
@@ -102,7 +114,15 @@ namespace MimumuToolkit.Utilities
             {
                 ReleaseCapture();
                 _ = SendMessage(targetForm.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                SaveFormLocation(targetForm);
             }
+        }
+
+
+        public static void SaveFormLocation(Form targetForm)
+        {
+            CommonUtil.SetSetting(string.Format(CommonConstants.AppConfigKeys.LocationXKeyFormat, targetForm.Name), targetForm.Location.X.ToString());
+            CommonUtil.SetSetting(string.Format(CommonConstants.AppConfigKeys.LocationYKeyFormat, targetForm.Name), targetForm.Location.Y.ToString());
         }
     }
 }

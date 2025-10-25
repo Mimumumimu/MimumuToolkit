@@ -87,7 +87,6 @@ namespace MimumuToolkit.CustomControls
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
-            SaveFormLocation();
             base.OnHandleDestroyed(e);
 
             // イベントのサブスクリプションを解除
@@ -215,6 +214,7 @@ namespace MimumuToolkit.CustomControls
                 // 保存された位置がない場合
                 if (CommonUtil.ContainsConfigurationSettingKey(GetLocationXKey()) == false)
                 {
+                    // 初回起動時のみ右下に表示
                     if (ShowInBottomRightOnce == true)
                     {
                         var primaryScreen = Screen.PrimaryScreen;
@@ -226,47 +226,36 @@ namespace MimumuToolkit.CustomControls
                         }
                     }
                     // 既定の位置で保存
-                    SaveFormLocation();
+                    FormUtil.SaveFormLocation(this);
                     return;
                 }
                 int x = CommonUtil.GetIntAppSetting(GetLocationXKey());
                 int y = CommonUtil.GetIntAppSetting(GetLocationYKey());
 
-                // 画面外に出ている場合
+                // 保存された位置がスクリーン内にあるかを検証
                 var screen = Screen.FromPoint(new Point(x, y));
-                if (screen == null || screen.WorkingArea.Contains(x, y) == false)
+                if (screen != null)
                 {
-                    // 既定の位置で保存
-                    SaveFormLocation();
-                    return;
+                    if (screen.WorkingArea.Contains(x, y) == false)
+                    {
+                        // 画面外に出ないように位置を調整
+                        x = Math.Max(screen.WorkingArea.X, Math.Min(x, screen.WorkingArea.X + screen.WorkingArea.Width - Width));
+                        y = Math.Max(screen.WorkingArea.Y, Math.Min(y, screen.WorkingArea.Y + screen.WorkingArea.Height - Height));
+
+                        Location = new Point(x, y);
+                        FormUtil.SaveFormLocation(this);
+                    }
+                    else
+                    {
+                        Location = new Point(x, y);
+                    }
                 }
-
-                // 画面外に出ないように位置を調整
-                x = Math.Max(screen.WorkingArea.X, Math.Min(x, screen.WorkingArea.X + screen.WorkingArea.Width - Width));
-                y = Math.Max(screen.WorkingArea.Y, Math.Min(y, screen.WorkingArea.Y + screen.WorkingArea.Height - Height));
-
-                Location = new Point(x, y);
             }
             catch (Exception ex)
             {
                 // 設定の読み込みに失敗した場合の処理
                 Debug.WriteLine($"Failed to load form location: {ex.Message}");
                 // 既定の位置を使用するか、または何もしない
-            }
-        }
-
-        protected void SaveFormLocation()
-        {
-            if (string.IsNullOrEmpty(Name)) return;
-            try
-            {
-                CommonUtil.SetSetting(GetLocationXKey(), Location.X.ToString());
-                CommonUtil.SetSetting(GetLocationYKey(), Location.Y.ToString());
-            }
-            catch (Exception ex)
-            {
-                // 設定の保存に失敗した場合の処理
-                Debug.WriteLine($"Failed to save form location: {ex.Message}");
             }
         }
     }

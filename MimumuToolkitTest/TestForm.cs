@@ -1,4 +1,6 @@
-﻿using MimumuToolkit;
+﻿
+using MimumuReminderDialog.Dialogs;
+using MimumuToolkit;
 using MimumuToolkit.Constants;
 using MimumuToolkit.CustomControls;
 using MimumuToolkit.Dialogs;
@@ -31,7 +33,9 @@ namespace MimumuToolkitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MimumuToolkitManager.SetTimer(5, ShowTest);
+            //MimumuToolkitManager.SetTimer(5, ShowTest);
+            ReminderDialog dialog = new ReminderDialog();
+            dialog.ShowDialog();
 
         }
 

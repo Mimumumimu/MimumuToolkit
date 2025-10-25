@@ -35,7 +35,6 @@ namespace MimumuToolkit.Dialogs
         {
             Point initialLocation = new(this.Location.X, this.Location.Y);
             FormUtil.DragWindow(this);
-            SaveFormLocation();
             if (initialLocation.X == this.Location.X &&
                 initialLocation.Y == this.Location.Y)
             {
@@ -75,6 +74,7 @@ namespace MimumuToolkit.Dialogs
 
             if (e.CloseReason == CloseReason.UserClosing)
             {
+                ClearLinkData();
                 this.Visible = false;
                 e.Cancel = true;
             }
@@ -82,13 +82,23 @@ namespace MimumuToolkit.Dialogs
             return;
         }
 
+        private void ClearLinkData()
+        {
+            // 明示的にLinkDataをクリア
+            foreach (LinkLabel.Link link in LLblMessage.Links)
+            {
+                link.LinkData = null;
+            }
+            LLblMessage.Links.Clear();
+        }
+
         public void ShowNotification(List<LinkEntity> links)
         {
+            ClearLinkData();
+
             // 現在の位置とサイズを保存
             Point originalLocation = this.Location;
             Size originalSize = this.Size;
-
-            LLblMessage.Links.Clear();
 
             StringBuilder sb = new();
             StringBuilder sbSpeak = new();
@@ -108,9 +118,11 @@ namespace MimumuToolkit.Dialogs
                 //LinkLabel.Linkを作成して追加
                 LinkLabel.Link link = new(currentPos, linkInfo.Title.Length)
                 {
-                    LinkData = linkInfo.Url
+                    LinkData = linkInfo.LinkData
                 };
                 LLblMessage.Links.Add(link);
+
+                linkInfo.LinkData = null;
 
                 currentPos += linkValue.Length;
             }
