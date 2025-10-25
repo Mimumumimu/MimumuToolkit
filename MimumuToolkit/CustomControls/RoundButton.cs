@@ -164,7 +164,7 @@ namespace MimumuToolkit.CustomControls
                     }
                     else if (ClientRectangle.Contains(PointToClient(Cursor.Position)))
                     {
-                                                // GraphicsPathの内側かどうかで判定
+                        // GraphicsPathの内側かどうかで判定
                         Point mousePos = PointToClient(Cursor.Position);
                         if (path.IsVisible(mousePos))
                         {
@@ -185,9 +185,11 @@ namespace MimumuToolkit.CustomControls
                         e.Graphics.FillPath(buttonColorBrush, path);
                     }
                 }
-                // テキスト描画用のRectangleを作成(微調整含む)
-                Rectangle rectText = new(1, -1, Width, Height);
-                // テキストを描画
+                // 枠線を考慮した内側の領域でテキストを描画
+                int padding = m_borderWidth + 2;
+                // padding + 1は＋のテキスト使用したときの微調整
+                Rectangle rectText = new(padding + 1, padding,
+                    Width - padding * 2, Height - padding * 2);
                 TextRenderer.DrawText(e.Graphics, Text, Font, rectText, ForeColor, buttonColor,
                         TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
 

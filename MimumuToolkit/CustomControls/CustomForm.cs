@@ -49,12 +49,24 @@ namespace MimumuToolkit.CustomControls
         } = false;
 
         /// <summary>
+        /// フォント プロパティのオーバーライド
+        /// </summary>
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public new Font Font
+        {
+            get { return base.Font; }
+            set { base.Font = value; }
+        }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public CustomForm()
         {
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
+            this.Font = new Font("BIZ UDゴシック", 12f);
         }
 
         /// <summary>

@@ -195,7 +195,6 @@
             ClientSize = new Size(800, 450);
             Controls.Add(PnlFill);
             Controls.Add(TbTitle);
-            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.None;
             Name = "TestForm";
             Text = "TestForm";
