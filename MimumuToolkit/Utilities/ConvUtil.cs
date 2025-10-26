@@ -1,4 +1,5 @@
 ﻿using MimumuToolkit.Constants;
+using System.Text;
 
 namespace MimumuToolkit.Utilities
 {
@@ -118,6 +119,32 @@ namespace MimumuToolkit.Utilities
                 DayOfWeek.Saturday => "土",
                 _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek), dayOfWeek, null)
             };
+        }
+        public static string DayOfWeekFlagsToString(CommonConstants.DayOfWeekFlags flags)
+        {
+            if (flags == CommonConstants.DayOfWeekFlags.None)
+            {
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+
+            if ((flags & CommonConstants.DayOfWeekFlags.Monday) != 0)
+                sb.Append("月");
+            if ((flags & CommonConstants.DayOfWeekFlags.Tuesday) != 0)
+                sb.Append("火");
+            if ((flags & CommonConstants.DayOfWeekFlags.Wednesday) != 0)
+                sb.Append("水");
+            if ((flags & CommonConstants.DayOfWeekFlags.Thursday) != 0)
+                sb.Append("木");
+            if ((flags & CommonConstants.DayOfWeekFlags.Friday) != 0)
+                sb.Append("金");
+            if ((flags & CommonConstants.DayOfWeekFlags.Saturday) != 0)
+                sb.Append("土");
+            if ((flags & CommonConstants.DayOfWeekFlags.Sunday) != 0)
+                sb.Append("日");
+
+            return sb.ToString();
         }
     }
 }

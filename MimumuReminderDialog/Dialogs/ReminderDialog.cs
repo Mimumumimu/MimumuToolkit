@@ -65,12 +65,21 @@ namespace MimumuReminderDialog.Dialogs
 
         private void RbnList_Click(object sender, EventArgs e)
         {
-
+            using (ReminderListDialog dialog = new ReminderListDialog())
+            {
+                //dialog.StartPosition = FormStartPosition.CenterParent;
+                //dialog.GroupNo = MimumuToolkitManager.GroupNo;
+                var result = dialog.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    SetList();
+                }
+            }
         }
 
         private void RbtnAdd_Click(object sender, EventArgs e)
         {
-            using(ReminderInputDialog dialog = new ReminderInputDialog())
+            using(ReminderInputDialog dialog = new ReminderInputDialog(null))
             {
                 //dialog.StartPosition = FormStartPosition.CenterParent;
                 //dialog.GroupNo = MimumuToolkitManager.GroupNo;

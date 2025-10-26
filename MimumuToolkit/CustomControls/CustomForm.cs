@@ -9,11 +9,6 @@ namespace MimumuToolkit.CustomControls
     public class CustomForm : Form
     {
         /// <summary>
-        /// タイトルバーのコントロール
-        /// </summary>
-        private TitleBarControl? m_titleBar = null;
-
-        /// <summary>
         /// Padding の値
         /// </summary>
         private Padding m_padding = new(FormConstants.PaddingSize);
@@ -43,10 +38,12 @@ namespace MimumuToolkit.CustomControls
         [Category("Custom")]
         [Description("初回起動時のみフォームを右下に表示するかどうかを設定します。")]
         [DefaultValue(false)]
-        public bool ShowInBottomRightOnce {
-            get;
-            set;
-        } = false;
+        public bool ShowInBottomRightOnce { get; set; } = false;
+
+        [Category("Custom")]
+        [Description("フォームの位置をアプリケーション設定に保存し、次回起動時に復元するかどうかを設定します。")]
+        [DefaultValue(true)]
+        public bool SaveFormLocation { get; set; } = true;
 
         /// <summary>
         /// フォント プロパティのオーバーライド
@@ -59,6 +56,22 @@ namespace MimumuToolkit.CustomControls
             set { base.Font = value; }
         }
 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoScaleMode AutoScaleMode
+        {
+            get { return base.AutoScaleMode; }
+            set { base.AutoScaleMode = value; }
+        }
+
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new FormBorderStyle FormBorderStyle
+        {
+            get { return base.FormBorderStyle; }
+            set { base.FormBorderStyle = value; }
+        }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -67,6 +80,8 @@ namespace MimumuToolkit.CustomControls
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
             this.Font = new Font("BIZ UDゴシック", 12f);
+            this.AutoScaleMode = AutoScaleMode.None;
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         /// <summary>
@@ -88,25 +103,9 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
-        protected void InitializeCommon(TitleBarControl? titleBar = null)
-        {
-            m_titleBar = titleBar;
-            if (m_titleBar != null)
-            {
-                m_titleBar.GetCloseButton.Click += CloseButtonClicked;
-            }
-        }
-
         protected override void OnHandleDestroyed(EventArgs e)
         {
             base.OnHandleDestroyed(e);
-
-            // イベントのサブスクリプションを解除
-            if (m_titleBar != null)
-            {
-                m_titleBar.GetCloseButton.Click -= CloseButtonClicked;
-                m_titleBar = null;
-            }
         }
 
         protected override void OnResize(EventArgs e)
@@ -206,16 +205,15 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
-        protected void CloseButtonClicked(object? sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private string GetLocationXKey() => string.Format(CommonConstants.AppConfigKeys.LocationXKeyFormat, Name);
         private string GetLocationYKey() => string.Format(CommonConstants.AppConfigKeys.LocationYKeyFormat, Name);
 
         private void LoadFormLocation()
         {
+            if (SaveFormLocation == false)
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(Name))
             {
                 return;

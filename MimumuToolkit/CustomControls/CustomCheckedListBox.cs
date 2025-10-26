@@ -14,17 +14,17 @@ namespace MimumuToolkit.CustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDataSetting { get; set; } = false;
 
-        public CustomCheckedListBox()
-        {
-            CheckOnClick = true;
-            Items.Clear();
-        }
-
         [DefaultValue(true)]
         public new bool CheckOnClick
         {
             get => base.CheckOnClick;
             set => base.CheckOnClick = value;
+        }
+
+        public CustomCheckedListBox()
+        {
+            CheckOnClick = true;
+            Items.Clear();
         }
 
         protected override void OnItemCheck(ItemCheckEventArgs e)

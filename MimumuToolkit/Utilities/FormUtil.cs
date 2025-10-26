@@ -41,6 +41,10 @@ namespace MimumuToolkit.Utilities
                     checkBox.BackColor = GetDarkColor(level);
                 }
             }
+            else if (control is CustomDataGridView customDataGridView)
+            {
+                customDataGridView.ApplyDarkMode();
+            }
             else
             {
                 if (control.BackColor != Color.Transparent)
@@ -59,7 +63,7 @@ namespace MimumuToolkit.Utilities
                             control.BackColor = GetDarkColor(level);
                         }
                     }
-              
+
                     else
                     {
                         if (control.BackColor != GetDarkColor(level))

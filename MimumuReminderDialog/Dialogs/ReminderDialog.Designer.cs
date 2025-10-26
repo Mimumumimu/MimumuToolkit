@@ -47,7 +47,6 @@
             // 
             // TbTitle
             // 
-            TbTitle.Dock = DockStyle.Top;
             TbTitle.Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TbTitle.Location = new Point(4, 4);
             TbTitle.Margin = new Padding(3, 4, 3, 4);
@@ -107,7 +106,6 @@
             Controls.Add(RbtnAdd);
             Controls.Add(CclbList);
             Controls.Add(TbTitle);
-            Font = new Font("BIZ UDゴシック", 12F);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ReminderDialog";
             Text = "リマインダー";

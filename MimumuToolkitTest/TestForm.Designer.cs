@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill = new Panel();
             roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
             checkedListBox1 = new CheckedListBox();
@@ -41,20 +40,11 @@
             TbVolume = new TrackBar();
             BtnSpeek = new Button();
             TxtSpeek = new TextBox();
+            titleBarControl1 = new MimumuToolkit.CustomControls.TitleBarControl();
             PnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TbSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)TbVolume).BeginInit();
             SuspendLayout();
-            // 
-            // TbTitle
-            // 
-            TbTitle.Dock = DockStyle.Top;
-            TbTitle.Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            TbTitle.Location = new Point(4, 4);
-            TbTitle.Margin = new Padding(3, 4, 3, 4);
-            TbTitle.Name = "TbTitle";
-            TbTitle.Size = new Size(792, 30);
-            TbTitle.TabIndex = 0;
             // 
             // PnlFill
             // 
@@ -102,7 +92,7 @@
             checkedListBox1.Items.AddRange(new object[] { "ああ", "あ", "あ", "あ" });
             checkedListBox1.Location = new Point(431, 166);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(138, 124);
+            checkedListBox1.Size = new Size(138, 112);
             checkedListBox1.TabIndex = 18;
             // 
             // CbDarkMode
@@ -110,7 +100,7 @@
             CbDarkMode.AutoSize = true;
             CbDarkMode.Location = new Point(12, 207);
             CbDarkMode.Name = "CbDarkMode";
-            CbDarkMode.Size = new Size(102, 25);
+            CbDarkMode.Size = new Size(98, 20);
             CbDarkMode.TabIndex = 13;
             CbDarkMode.Text = "checkBox1";
             CbDarkMode.UseVisualStyleBackColor = true;
@@ -130,7 +120,7 @@
             // 
             TxtDiscordKey.Location = new Point(12, 105);
             TxtDiscordKey.Name = "TxtDiscordKey";
-            TxtDiscordKey.Size = new Size(304, 29);
+            TxtDiscordKey.Size = new Size(304, 23);
             TxtDiscordKey.TabIndex = 10;
             // 
             // TbSpeed
@@ -147,7 +137,7 @@
             LblSpeed.AutoSize = true;
             LblSpeed.Location = new Point(302, 72);
             LblSpeed.Name = "LblSpeed";
-            LblSpeed.Size = new Size(53, 21);
+            LblSpeed.Size = new Size(47, 16);
             LblSpeed.TabIndex = 8;
             LblSpeed.Text = "Speed";
             // 
@@ -156,7 +146,7 @@
             LblVolume.AutoSize = true;
             LblVolume.Location = new Point(302, 24);
             LblVolume.Name = "LblVolume";
-            LblVolume.Size = new Size(63, 21);
+            LblVolume.Size = new Size(55, 16);
             LblVolume.TabIndex = 7;
             LblVolume.Text = "Volume";
             // 
@@ -185,17 +175,25 @@
             // 
             TxtSpeek.Location = new Point(10, 21);
             TxtSpeek.Name = "TxtSpeek";
-            TxtSpeek.Size = new Size(286, 29);
+            TxtSpeek.Size = new Size(286, 23);
             TxtSpeek.TabIndex = 3;
             TxtSpeek.Text = "せんごくさんは今日も元気だなあ";
+            // 
+            // titleBarControl1
+            // 
+            titleBarControl1.Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            titleBarControl1.Location = new Point(4, 4);
+            titleBarControl1.Margin = new Padding(3, 4, 3, 4);
+            titleBarControl1.Name = "titleBarControl1";
+            titleBarControl1.Size = new Size(792, 30);
+            titleBarControl1.TabIndex = 19;
             // 
             // TestForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(800, 450);
             Controls.Add(PnlFill);
-            Controls.Add(TbTitle);
-            FormBorderStyle = FormBorderStyle.None;
+            Controls.Add(titleBarControl1);
             Name = "TestForm";
             Text = "TestForm";
             PnlFill.ResumeLayout(false);
@@ -206,8 +204,6 @@
         }
 
         #endregion
-
-        private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
         private Panel PnlFill;
         private TextBox TxtSpeek;
         private Button BtnSpeek;
@@ -220,5 +216,6 @@
         private CheckBox CbDarkMode;
         private MimumuToolkit.CustomControls.RoundButton roundButton2;
         private CheckedListBox checkedListBox1;
+        private MimumuToolkit.CustomControls.TitleBarControl titleBarControl1;
     }
 }

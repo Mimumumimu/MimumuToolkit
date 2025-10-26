@@ -1,5 +1,6 @@
 ﻿using MimumuToolkit.Constants;
 using MimumuToolkit.Utilities;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace MimumuToolkit.CustomControls
@@ -11,11 +12,21 @@ namespace MimumuToolkit.CustomControls
         private DateTime m_lastMouseDownTime;
         private Color m_closeButtonBaseForeColor = SystemColors.ControlText;
 
-        public Button GetCloseButton { get { return BtnClose; } }
+        /// <summary>
+        /// Dock プロパティのオーバーライド
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new DockStyle Dock
+        {
+            get { return base.Dock; }
+            set { base.Dock = value; }
+        }
 
         public TitleBarControl()
         {
             InitializeComponent();
+            Dock = DockStyle.Top;
         }
 
 

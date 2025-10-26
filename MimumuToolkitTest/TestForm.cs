@@ -18,7 +18,6 @@ namespace MimumuToolkitTest
         public TestForm()
         {
             InitializeComponent();
-            InitializeCommon(TbTitle);
 
             CbDarkMode.Checked = MimumuToolkitManager.IsDarkModeEnabled;
             TxtDiscordKey.PlaceholderText = "Discord Bot Token";

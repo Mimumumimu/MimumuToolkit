@@ -32,42 +32,42 @@ namespace MimumuReminderDialog.Dialogs
         {
             TbTitle = new TitleBarControl();
             checkedListBox1 = new CheckedListBox();
-            dateTimePicker1 = new DateTimePicker();
-            dateTimePicker2 = new DateTimePicker();
-            groupBox1 = new GroupBox();
-            checkBox7 = new FlatCheckBox();
-            checkBox6 = new FlatCheckBox();
-            checkBox5 = new FlatCheckBox();
-            checkBox4 = new FlatCheckBox();
-            checkBox3 = new FlatCheckBox();
-            checkBox2 = new FlatCheckBox();
-            checkBox1 = new FlatCheckBox();
+            DtpDate = new DateTimePicker();
+            DtpTime = new DateTimePicker();
+            GbDaysOfWeek = new GroupBox();
+            CbSunday = new FlatCheckBox();
+            CbSaturday = new FlatCheckBox();
+            CbFriday = new FlatCheckBox();
+            CbThursday = new FlatCheckBox();
+            CbWednesday = new FlatCheckBox();
+            CbTuesday = new FlatCheckBox();
+            CbMonday = new FlatCheckBox();
             PnlDock = new Panel();
-            checkBox8 = new FlatCheckBox();
-            groupBox2 = new GroupBox();
-            comboBox2 = new ComboBox();
-            label2 = new Label();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            CbSoundNotification = new FlatCheckBox();
+            GbExternalNotification = new GroupBox();
+            CmbNtfy = new ComboBox();
+            TxtNtfy = new Label();
+            CmbDiscord = new ComboBox();
+            TxtDiscord = new Label();
+            TxtRemarks = new TextBox();
+            TxtSubject = new TextBox();
             RbtnOK = new RoundButton();
             panel1 = new Panel();
-            groupBox1.SuspendLayout();
+            TxtLink = new TextBox();
+            GbDaysOfWeek.SuspendLayout();
             PnlDock.SuspendLayout();
-            groupBox2.SuspendLayout();
+            GbExternalNotification.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // TbTitle
             // 
-            TbTitle.Dock = DockStyle.Top;
             TbTitle.Font = new Font("Segoe UI Variable Display", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TbTitle.Location = new Point(4, 4);
             TbTitle.Margin = new Padding(3, 4, 3, 4);
             TbTitle.Name = "TbTitle";
             TbTitle.Size = new Size(567, 30);
-            TbTitle.TabIndex = 1;
+            TbTitle.TabIndex = 0;
             // 
             // checkedListBox1
             // 
@@ -77,211 +77,213 @@ namespace MimumuReminderDialog.Dialogs
             checkedListBox1.Items.AddRange(new object[] { "未実装" });
             checkedListBox1.Location = new Point(4, 34);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(143, 309);
-            checkedListBox1.TabIndex = 2;
+            checkedListBox1.Size = new Size(143, 347);
+            checkedListBox1.TabIndex = 1;
             // 
-            // dateTimePicker1
+            // DtpDate
             // 
-            dateTimePicker1.CustomFormat = "yyyy/MM/dd(ddd)";
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(6, 13);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.ShowCheckBox = true;
-            dateTimePicker1.Size = new Size(175, 23);
-            dateTimePicker1.TabIndex = 1;
+            DtpDate.CustomFormat = "yyyy/MM/dd(ddd)";
+            DtpDate.Format = DateTimePickerFormat.Custom;
+            DtpDate.Location = new Point(6, 13);
+            DtpDate.Name = "DtpDate";
+            DtpDate.ShowCheckBox = true;
+            DtpDate.Size = new Size(175, 23);
+            DtpDate.TabIndex = 0;
+            DtpDate.ValueChanged += DtpDate_ValueChanged;
             // 
-            // dateTimePicker2
+            // DtpTime
             // 
-            dateTimePicker2.CustomFormat = "HH:mm";
-            dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.Location = new Point(105, 42);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.ShowUpDown = true;
-            dateTimePicker2.Size = new Size(76, 23);
-            dateTimePicker2.TabIndex = 2;
+            DtpTime.CustomFormat = "HH:mm";
+            DtpTime.Format = DateTimePickerFormat.Custom;
+            DtpTime.Location = new Point(105, 42);
+            DtpTime.Name = "DtpTime";
+            DtpTime.ShowUpDown = true;
+            DtpTime.Size = new Size(76, 23);
+            DtpTime.TabIndex = 1;
             // 
-            // groupBox1
+            // GbDaysOfWeek
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            groupBox1.Controls.Add(checkBox7);
-            groupBox1.Controls.Add(checkBox6);
-            groupBox1.Controls.Add(checkBox5);
-            groupBox1.Controls.Add(checkBox4);
-            groupBox1.Controls.Add(checkBox3);
-            groupBox1.Controls.Add(checkBox2);
-            groupBox1.Controls.Add(checkBox1);
-            groupBox1.Location = new Point(203, 7);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(194, 101);
-            groupBox1.TabIndex = 3;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "曜日";
+            GbDaysOfWeek.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            GbDaysOfWeek.Controls.Add(CbSunday);
+            GbDaysOfWeek.Controls.Add(CbSaturday);
+            GbDaysOfWeek.Controls.Add(CbFriday);
+            GbDaysOfWeek.Controls.Add(CbThursday);
+            GbDaysOfWeek.Controls.Add(CbWednesday);
+            GbDaysOfWeek.Controls.Add(CbTuesday);
+            GbDaysOfWeek.Controls.Add(CbMonday);
+            GbDaysOfWeek.Location = new Point(203, 7);
+            GbDaysOfWeek.Name = "GbDaysOfWeek";
+            GbDaysOfWeek.Size = new Size(194, 101);
+            GbDaysOfWeek.TabIndex = 2;
+            GbDaysOfWeek.TabStop = false;
+            GbDaysOfWeek.Text = "曜日";
             // 
-            // checkBox7
+            // CbSunday
             // 
-            checkBox7.Location = new Point(100, 64);
-            checkBox7.Name = "checkBox7";
-            checkBox7.Size = new Size(41, 31);
-            checkBox7.TabIndex = 6;
-            checkBox7.Text = "日";
-            checkBox7.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox7.UseVisualStyleBackColor = true;
+            CbSunday.Location = new Point(100, 64);
+            CbSunday.Name = "CbSunday";
+            CbSunday.Size = new Size(41, 31);
+            CbSunday.TabIndex = 6;
+            CbSunday.Text = "日";
+            CbSunday.TextAlign = ContentAlignment.MiddleCenter;
+            CbSunday.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // CbSaturday
             // 
-            checkBox6.Location = new Point(53, 64);
-            checkBox6.Name = "checkBox6";
-            checkBox6.Size = new Size(41, 31);
-            checkBox6.TabIndex = 5;
-            checkBox6.Text = "土";
-            checkBox6.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox6.UseVisualStyleBackColor = true;
+            CbSaturday.Location = new Point(53, 64);
+            CbSaturday.Name = "CbSaturday";
+            CbSaturday.Size = new Size(41, 31);
+            CbSaturday.TabIndex = 5;
+            CbSaturday.Text = "土";
+            CbSaturday.TextAlign = ContentAlignment.MiddleCenter;
+            CbSaturday.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // CbFriday
             // 
-            checkBox5.Location = new Point(6, 64);
-            checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(41, 31);
-            checkBox5.TabIndex = 4;
-            checkBox5.Text = "金";
-            checkBox5.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox5.UseVisualStyleBackColor = true;
+            CbFriday.Location = new Point(6, 64);
+            CbFriday.Name = "CbFriday";
+            CbFriday.Size = new Size(41, 31);
+            CbFriday.TabIndex = 4;
+            CbFriday.Text = "金";
+            CbFriday.TextAlign = ContentAlignment.MiddleCenter;
+            CbFriday.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // CbThursday
             // 
-            checkBox4.Location = new Point(147, 27);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(41, 31);
-            checkBox4.TabIndex = 3;
-            checkBox4.Text = "木";
-            checkBox4.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox4.UseVisualStyleBackColor = true;
+            CbThursday.Location = new Point(147, 27);
+            CbThursday.Name = "CbThursday";
+            CbThursday.Size = new Size(41, 31);
+            CbThursday.TabIndex = 3;
+            CbThursday.Text = "木";
+            CbThursday.TextAlign = ContentAlignment.MiddleCenter;
+            CbThursday.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // CbWednesday
             // 
-            checkBox3.Location = new Point(100, 27);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(41, 31);
-            checkBox3.TabIndex = 2;
-            checkBox3.Text = "水";
-            checkBox3.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox3.UseVisualStyleBackColor = true;
+            CbWednesday.Location = new Point(100, 27);
+            CbWednesday.Name = "CbWednesday";
+            CbWednesday.Size = new Size(41, 31);
+            CbWednesday.TabIndex = 2;
+            CbWednesday.Text = "水";
+            CbWednesday.TextAlign = ContentAlignment.MiddleCenter;
+            CbWednesday.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // CbTuesday
             // 
-            checkBox2.Location = new Point(53, 27);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(41, 31);
-            checkBox2.TabIndex = 1;
-            checkBox2.Text = "火";
-            checkBox2.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox2.UseVisualStyleBackColor = true;
+            CbTuesday.Location = new Point(53, 27);
+            CbTuesday.Name = "CbTuesday";
+            CbTuesday.Size = new Size(41, 31);
+            CbTuesday.TabIndex = 1;
+            CbTuesday.Text = "火";
+            CbTuesday.TextAlign = ContentAlignment.MiddleCenter;
+            CbTuesday.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // CbMonday
             // 
-            checkBox1.Location = new Point(6, 27);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(41, 31);
-            checkBox1.TabIndex = 0;
-            checkBox1.Text = "月";
-            checkBox1.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox1.UseVisualStyleBackColor = true;
+            CbMonday.Location = new Point(6, 27);
+            CbMonday.Name = "CbMonday";
+            CbMonday.Size = new Size(41, 31);
+            CbMonday.TabIndex = 0;
+            CbMonday.Text = "月";
+            CbMonday.TextAlign = ContentAlignment.MiddleCenter;
+            CbMonday.UseVisualStyleBackColor = true;
             // 
             // PnlDock
             // 
-            PnlDock.Controls.Add(checkBox8);
-            PnlDock.Controls.Add(groupBox2);
-            PnlDock.Controls.Add(textBox2);
-            PnlDock.Controls.Add(textBox1);
-            PnlDock.Controls.Add(groupBox1);
-            PnlDock.Controls.Add(dateTimePicker2);
-            PnlDock.Controls.Add(dateTimePicker1);
+            PnlDock.Controls.Add(TxtLink);
+            PnlDock.Controls.Add(CbSoundNotification);
+            PnlDock.Controls.Add(GbExternalNotification);
+            PnlDock.Controls.Add(TxtRemarks);
+            PnlDock.Controls.Add(TxtSubject);
+            PnlDock.Controls.Add(GbDaysOfWeek);
+            PnlDock.Controls.Add(DtpTime);
+            PnlDock.Controls.Add(DtpDate);
             PnlDock.Dock = DockStyle.Fill;
             PnlDock.Location = new Point(147, 34);
             PnlDock.Name = "PnlDock";
-            PnlDock.Size = new Size(424, 309);
-            PnlDock.TabIndex = 3;
+            PnlDock.Size = new Size(424, 347);
+            PnlDock.TabIndex = 2;
             // 
-            // checkBox8
+            // CbSoundNotification
             // 
-            checkBox8.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            checkBox8.Location = new Point(303, 121);
-            checkBox8.Name = "checkBox8";
-            checkBox8.Size = new Size(104, 31);
-            checkBox8.TabIndex = 8;
-            checkBox8.Text = "音声通知";
-            checkBox8.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox8.UseVisualStyleBackColor = true;
+            CbSoundNotification.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CbSoundNotification.Location = new Point(303, 121);
+            CbSoundNotification.Name = "CbSoundNotification";
+            CbSoundNotification.Size = new Size(104, 31);
+            CbSoundNotification.TabIndex = 4;
+            CbSoundNotification.Text = "音声通知";
+            CbSoundNotification.TextAlign = ContentAlignment.MiddleCenter;
+            CbSoundNotification.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // GbExternalNotification
             // 
-            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox2.Controls.Add(comboBox2);
-            groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(comboBox1);
-            groupBox2.Controls.Add(label1);
-            groupBox2.Location = new Point(6, 204);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(415, 97);
-            groupBox2.TabIndex = 7;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "外部通知";
+            GbExternalNotification.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            GbExternalNotification.Controls.Add(CmbNtfy);
+            GbExternalNotification.Controls.Add(TxtNtfy);
+            GbExternalNotification.Controls.Add(CmbDiscord);
+            GbExternalNotification.Controls.Add(TxtDiscord);
+            GbExternalNotification.Location = new Point(6, 244);
+            GbExternalNotification.Name = "GbExternalNotification";
+            GbExternalNotification.Size = new Size(415, 97);
+            GbExternalNotification.TabIndex = 6;
+            GbExternalNotification.TabStop = false;
+            GbExternalNotification.Text = "外部通知";
             // 
-            // comboBox2
+            // CmbNtfy
             // 
-            comboBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Discord：なし" });
-            comboBox2.Location = new Point(99, 27);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(302, 24);
-            comboBox2.TabIndex = 9;
+            CmbNtfy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CmbNtfy.FormattingEnabled = true;
+            CmbNtfy.Items.AddRange(new object[] { "Discord：なし" });
+            CmbNtfy.Location = new Point(99, 27);
+            CmbNtfy.Name = "CmbNtfy";
+            CmbNtfy.Size = new Size(302, 24);
+            CmbNtfy.TabIndex = 1;
             // 
-            // label2
+            // TxtNtfy
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 31);
-            label2.Name = "label2";
-            label2.Size = new Size(39, 16);
-            label2.TabIndex = 8;
-            label2.Text = "ntfy";
+            TxtNtfy.AutoSize = true;
+            TxtNtfy.Location = new Point(6, 31);
+            TxtNtfy.Name = "TxtNtfy";
+            TxtNtfy.Size = new Size(39, 16);
+            TxtNtfy.TabIndex = 0;
+            TxtNtfy.Text = "ntfy";
             // 
-            // comboBox1
+            // CmbDiscord
             // 
-            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Discord：なし" });
-            comboBox1.Location = new Point(99, 62);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(302, 24);
-            comboBox1.TabIndex = 6;
+            CmbDiscord.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CmbDiscord.FormattingEnabled = true;
+            CmbDiscord.Items.AddRange(new object[] { "Discord：なし" });
+            CmbDiscord.Location = new Point(99, 62);
+            CmbDiscord.Name = "CmbDiscord";
+            CmbDiscord.Size = new Size(302, 24);
+            CmbDiscord.TabIndex = 3;
             // 
-            // label1
+            // TxtDiscord
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 66);
-            label1.Name = "label1";
-            label1.Size = new Size(63, 16);
-            label1.TabIndex = 7;
-            label1.Text = "Discord";
+            TxtDiscord.AutoSize = true;
+            TxtDiscord.Location = new Point(6, 66);
+            TxtDiscord.Name = "TxtDiscord";
+            TxtDiscord.Size = new Size(63, 16);
+            TxtDiscord.TabIndex = 2;
+            TxtDiscord.Text = "Discord";
             // 
-            // textBox2
+            // TxtRemarks
             // 
-            textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.Location = new Point(12, 164);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "備考";
-            textBox2.Size = new Size(395, 23);
-            textBox2.TabIndex = 5;
+            TxtRemarks.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtRemarks.Location = new Point(12, 165);
+            TxtRemarks.Name = "TxtRemarks";
+            TxtRemarks.PlaceholderText = "備考";
+            TxtRemarks.Size = new Size(395, 23);
+            TxtRemarks.TabIndex = 5;
             // 
-            // textBox1
+            // TxtSubject
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Location = new Point(12, 125);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "件名";
-            textBox1.Size = new Size(285, 23);
-            textBox1.TabIndex = 4;
+            TxtSubject.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtSubject.Location = new Point(12, 125);
+            TxtSubject.Name = "TxtSubject";
+            TxtSubject.PlaceholderText = "件名";
+            TxtSubject.Size = new Size(285, 23);
+            TxtSubject.TabIndex = 3;
             // 
             // RbtnOK
             // 
@@ -301,7 +303,7 @@ namespace MimumuReminderDialog.Dialogs
             RbtnOK.Name = "RbtnOK";
             RbtnOK.ParentControl = null;
             RbtnOK.Size = new Size(120, 40);
-            RbtnOK.TabIndex = 9;
+            RbtnOK.TabIndex = 0;
             RbtnOK.Text = "ＯＫ";
             RbtnOK.UseVisualStyleBackColor = false;
             RbtnOK.Click += RbtnOK_Click;
@@ -310,29 +312,37 @@ namespace MimumuReminderDialog.Dialogs
             // 
             panel1.Controls.Add(RbtnOK);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(4, 343);
+            panel1.Location = new Point(4, 381);
             panel1.Name = "panel1";
             panel1.Size = new Size(567, 49);
-            panel1.TabIndex = 10;
+            panel1.TabIndex = 3;
+            // 
+            // TxtLink
+            // 
+            TxtLink.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtLink.Location = new Point(12, 205);
+            TxtLink.Name = "TxtLink";
+            TxtLink.PlaceholderText = "Link";
+            TxtLink.Size = new Size(395, 23);
+            TxtLink.TabIndex = 7;
             // 
             // ReminderInputDialog
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(575, 396);
+            ClientSize = new Size(575, 434);
             Controls.Add(PnlDock);
             Controls.Add(checkedListBox1);
             Controls.Add(TbTitle);
             Controls.Add(panel1);
-            Font = new Font("BIZ UDゴシック", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "ReminderInputDialog";
+            SaveFormLocation = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "リマインダー入力";
-            groupBox1.ResumeLayout(false);
+            GbDaysOfWeek.ResumeLayout(false);
             PnlDock.ResumeLayout(false);
             PnlDock.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
+            GbExternalNotification.ResumeLayout(false);
+            GbExternalNotification.PerformLayout();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -341,26 +351,27 @@ namespace MimumuReminderDialog.Dialogs
 
         private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
         private CheckedListBox checkedListBox1;
-        private DateTimePicker dateTimePicker1;
-        private DateTimePicker dateTimePicker2;
-        private GroupBox groupBox1;
-        private FlatCheckBox checkBox7;
-        private FlatCheckBox checkBox6;
-        private FlatCheckBox checkBox5;
-        private FlatCheckBox checkBox4;
-        private FlatCheckBox checkBox3;
-        private FlatCheckBox checkBox2;
-        private FlatCheckBox checkBox1;
+        private DateTimePicker DtpDate;
+        private DateTimePicker DtpTime;
+        private GroupBox GbDaysOfWeek;
+        private FlatCheckBox CbSunday;
+        private FlatCheckBox CbSaturday;
+        private FlatCheckBox CbFriday;
+        private FlatCheckBox CbThursday;
+        private FlatCheckBox CbWednesday;
+        private FlatCheckBox CbTuesday;
+        private FlatCheckBox CbMonday;
         private Panel PnlDock;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private GroupBox groupBox2;
-        private ComboBox comboBox1;
+        private TextBox TxtRemarks;
+        private TextBox TxtSubject;
+        private GroupBox GbExternalNotification;
+        private ComboBox CmbDiscord;
         private MimumuToolkit.CustomControls.RoundButton RbtnOK;
-        private FlatCheckBox checkBox8;
-        private ComboBox comboBox2;
-        private Label label2;
-        private Label label1;
+        private FlatCheckBox CbSoundNotification;
+        private ComboBox CmbNtfy;
+        private Label TxtNtfy;
+        private Label TxtDiscord;
         private Panel panel1;
+        private TextBox TxtLink;
     }
 }
