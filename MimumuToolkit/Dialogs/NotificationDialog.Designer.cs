@@ -68,8 +68,6 @@
             ClientSize = new Size(400, 100);
             Controls.Add(LLblMessage);
             Controls.Add(LblTitle);
-            Font = new Font("Segoe UI", 12F);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "NotificationDialog";
             Resizable = false;
             ShowInBottomRightOnce = true;

@@ -1,7 +1,9 @@
-using MimumuToolkit.Constants;
+ï»¿using MimumuToolkit.Constants;
 using MimumuToolkit.Dialogs;
 using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
+using System.Linq;
+using System.Threading;
 
 namespace MimumuToolkit
 {
@@ -9,11 +11,12 @@ namespace MimumuToolkit
     /// 
     /// </summary>
     /// <remarks>
-    /// Œp³‚·‚éˆÓ–¡‚ª‚È‚¢‚Ì‚ÅAsealed ‚Å–¾¦“I‚Éu‚±‚ê‚ÍŒp³‚³‚ê‚é‚×‚«‚Å‚Í‚È‚¢v‚ÆéŒ¾‚µ‚Ä‚¢‚Ü‚·
+    /// ç¶™æ‰¿ã™ã‚‹æ„å‘³ãŒãªã„ã®ã§ã€sealed ã§æ˜ç¤ºçš„ã«ã€Œã“ã‚Œã¯ç¶™æ‰¿ã•ã‚Œã‚‹ã¹ãã§ã¯ãªã„ã€ã¨å®£è¨€ã—ã¦ã„ã¾ã™
     /// </remarks>
     public sealed class MimumuToolkitManager
     {
         public static int GroupNo { get; set; } = CommonConstants.DefaultGroupNo;
+        public static int UserNo { get; set; } = CommonConstants.DefaultUserNo;
 
         private static NotificationDialog? m_notificationDialog = null;
 
@@ -23,7 +26,7 @@ namespace MimumuToolkit
             ShowNotification([link]);
         }
 
-        public static void ShowNotification(List<LinkEntity> links)
+        public static void ShowNotification(List<LinkEntity> links, Action? closeAction = null)
         {
             if (m_notificationDialog == null)
             {
@@ -33,7 +36,7 @@ namespace MimumuToolkit
                 m_notificationDialog.Visible = false;
                 m_notificationDialog.Opacity = 1;
             }
-            m_notificationDialog.ShowNotification(links);
+            m_notificationDialog.ShowNotification(links, closeAction);
         }
 
 
@@ -51,10 +54,6 @@ namespace MimumuToolkit
             set
             {
                 m_isDarkModeEnabled = value;
-                if (m_isDarkModeEnabled == null)
-                {
-                    m_isDarkModeEnabled = false;
-                }
                 CommonUtil.SetSetting(CommonConstants.AppConfigKeys.DarkModeEnabledKey, m_isDarkModeEnabled.Value.ToString());
             }
         }
@@ -73,10 +72,6 @@ namespace MimumuToolkit
             set
             {
                 m_isNotificationSoundEnabled = value;
-                if (m_isNotificationSoundEnabled == null)
-                {
-                    m_isNotificationSoundEnabled = true;
-                }
                 CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationSoundEnabledKey, m_isNotificationSoundEnabled.Value.ToString());
             }
         }
@@ -95,10 +90,6 @@ namespace MimumuToolkit
             set
             {
                 m_isNotificationFlashEnabled = value;
-                if (m_isNotificationFlashEnabled == null)
-                {
-                    m_isNotificationFlashEnabled = true;
-                }
                 CommonUtil.SetSetting(CommonConstants.AppConfigKeys.NotificationFlashEnabledKey, m_isNotificationFlashEnabled.Value.ToString());
             }
         }
@@ -131,13 +122,17 @@ namespace MimumuToolkit
             }
         }
 
-        #region ƒ^ƒCƒ}[ŠÖ˜A
+        #region ã‚¿ã‚¤ãƒãƒ¼é–¢é€£
 
         private static SynchronizationContext? m_uiContext;
         private static PeriodicTimer? m_periodicTimer;
-        private static readonly List<TimerEntity> m_timers = [];
+        private static CancellationTokenSource? m_cancellationTokenSource;
+        private static Task? m_timerTask; 
 
-        public static void SetTimer(int intervalseconds, Action action)
+        private static readonly List<TimerEntity> m_timers = [];
+        private static readonly List<Action> m_dailyActions = [];
+
+        public static void SetTimer(int intervalseconds, Action action, bool executeFirst = true)
         {
             if (m_uiContext == null)
             {
@@ -148,38 +143,54 @@ namespace MimumuToolkit
             if (timer == null)
             {
                 timer = new TimerEntity(intervalseconds, action);
+                if (executeFirst == false)
+                {
+                    timer.LastElapsedTime = DateTime.Now.AddSeconds(intervalseconds);
+                }
                 m_timers.Add(timer);
             }
             else
             {
-                // Šù‘¶‚Ìƒ^ƒCƒ}[‚ª‚ ‚éê‡‚ÍƒJƒEƒ“ƒ^[‚ğƒŠƒZƒbƒg
                 timer.LastElapsedTime = DateTime.MinValue;
-                return;
             }
         }
 
-        /// <summary>
-        /// ƒ^ƒCƒ}[‚©‚çƒAƒNƒVƒ‡ƒ“‚ğíœ‚µ‚Ü‚·B
-        /// </summary>
-        /// <param name="action">íœ‚·‚éƒAƒNƒVƒ‡ƒ“</param>
-        public static void RemoveTimer(Action action)
+        public static void SetDailyTimer(Action action)
         {
-            var timer = m_timers.FirstOrDefault(t => t.ElapsedAction == action);
-            if (timer == null)
+            if (m_uiContext == null)
             {
-                return;
+                StartPeriodicTimer();
             }
 
-            timer.ElapsedAction = null;
-            m_timers.Remove(timer);
+            if (!m_dailyActions.Contains(action))
+            {
+                m_dailyActions.Add(action);
+            }
+        }
 
-            // ƒ^ƒCƒ}[‚ª‹ó‚É‚È‚Á‚½‚çƒ^ƒCƒ}[‚ğ’â~‚·‚é
-            if (m_timers.Count == 0)
+
+        public static void RemoveTimer(Action action)
+        {
+            if (m_dailyActions.Contains(action))
+            {
+                m_dailyActions.Remove(action);
+            }
+            var timer = m_timers.FirstOrDefault(t => t.ElapsedAction == action);
+            if (timer != null)
+            {
+                timer.ElapsedAction = null;
+                m_timers.Remove(timer);
+            }
+
+            if (m_timers.Count == 0 && m_dailyActions.Count == 0)
             {
                 StopAllTimer();
             }
         }
 
+        /// <summary>
+        /// ã™ã¹ã¦ã®ã‚¿ã‚¤ãƒãƒ¼ã‚’åœæ­¢ã—ã€ãƒªã‚½ãƒ¼ã‚¹ã‚’å®Œå…¨ã«è§£æ”¾ã—ã¾ã™ã€‚
+        /// </summary>
         public static void StopAllTimer()
         {
             foreach (var timer in m_timers)
@@ -187,47 +198,159 @@ namespace MimumuToolkit
                 timer.ElapsedAction = null;
             }
             m_timers.Clear();
+            m_dailyActions.Clear();
+
+            if (m_cancellationTokenSource != null)
+            {
+                try
+                {
+                    if (!m_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        m_cancellationTokenSource.Cancel();
+                    }
+                }
+                finally
+                {
+                    m_cancellationTokenSource.Dispose();
+                    m_cancellationTokenSource = null;
+                }
+            }
+
+            // PeriodicTimer ã‚’ç ´æ£„ï¼ˆã“ã‚ŒãŒ WaitForNextTickAsync ã‚’çµ‚äº†ã•ã›ã‚‹ï¼‰
             if (m_periodicTimer != null)
             {
                 m_periodicTimer.Dispose();
                 m_periodicTimer = null;
             }
+
             m_uiContext = null;
         }
 
-        private static async void StartPeriodicTimer()
+        /// <summary>
+        /// å®šæœŸçš„ã«ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼ãƒ«ãƒ¼ãƒ—ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+        /// </summary>
+        private static void StartPeriodicTimer()  // âœ… async void ã§ã¯ãªã fire-and-forget
         {
             m_uiContext = SynchronizationContext.Current;
+
+            // å¤ã„ãƒªã‚½ãƒ¼ã‚¹ã‚’ç¢ºå®Ÿã«ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—
+            CleanupTimerResources();
+
+            // æ–°ã—ã„ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œæˆ
+            m_periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+            m_cancellationTokenSource = new CancellationTokenSource();
+
+            // Task ã‚’ä¿æŒã—ã¦è¿½è·¡å¯èƒ½ã«
+            m_timerTask = RunTimerLoopAsync();
+        }
+
+        /// <summary>
+        /// ã‚¿ã‚¤ãƒãƒ¼ãƒ«ãƒ¼ãƒ—ã‚’å®Ÿè¡Œã—ã¾ã™ï¼ˆasync Taskç‰ˆï¼‰
+        /// </summary>
+        private static async Task RunTimerLoopAsync()
+        {
+            try
+            {
+                DateTime lastDate = DateTime.Now.Date;
+                while (await m_periodicTimer!.WaitForNextTickAsync(m_cancellationTokenSource!.Token))
+                {
+                    DateTime now = DateTime.Now;
+
+                    // æ—¥ä»˜ãŒå¤‰ã‚ã£ãŸã‹ãƒã‚§ãƒƒã‚¯
+                    if (now.Date > lastDate)
+                    {
+                        lastDate = now.Date;
+
+                        foreach (var action in m_dailyActions)
+                        {
+                            if (action != null)
+                            {
+                                m_uiContext?.Post(_ =>
+                                {
+                                    try
+                                    {
+                                        action.Invoke();
+                                    }
+                                    catch
+                                    {
+                                        // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å†…ã®ä¾‹å¤–ã¯ç„¡è¦–
+                                    }
+                                }, null);
+                            }
+                        }
+                    }
+
+                    // å„ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒã‚§ãƒƒã‚¯
+                    for (int i = m_timers.Count - 1; i >= 0; i--)
+                    {
+                        var timer = m_timers[i];
+
+                        if (timer?.ElapsedAction == null)
+                        {
+                            continue;
+                        }
+
+                        if ((now - timer.LastElapsedTime).TotalSeconds >= timer.IntervalSeconds)
+                        {
+                            timer.LastElapsedTime = now;
+
+                            m_uiContext?.Post(_ =>
+                            {
+                                try
+                                {
+                                    timer.ElapsedAction?.Invoke();
+                                }
+                                catch
+                                {
+                                    // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å†…ã®ä¾‹å¤–ã¯ç„¡è¦–
+                                }
+                            }, null);
+                        }
+                    }
+
+                    if (m_timers.Count == 0 && m_dailyActions.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // æ­£å¸¸ãªã‚­ãƒ£ãƒ³ã‚»ãƒ«
+            }
+            finally
+            {
+                CleanupTimerResources();
+                m_uiContext = null;
+                m_timerTask = null;
+            }
+        }
+
+        private static void CleanupTimerResources()
+        {
             if (m_periodicTimer != null)
             {
                 m_periodicTimer.Dispose();
                 m_periodicTimer = null;
             }
-            m_periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
-            while (await m_periodicTimer.WaitForNextTickAsync())
+            if (m_cancellationTokenSource != null)
             {
-                DateTime now = DateTime.Now;
-                foreach (var timer in m_timers)
+                try
                 {
-                    // ŠÔ‚ªè‡’l‚ğ’´‚¦‚½‚©ƒ`ƒFƒbƒN
-                    if ((now - timer.LastElapsedTime).TotalSeconds >= timer.IntervalSeconds)
+                    if (!m_cancellationTokenSource.IsCancellationRequested)
                     {
-                        // Œo‰ßŠÔ‚ğXV
-                        timer.LastElapsedTime = now;
-
-                        // UIƒXƒŒƒbƒh‚ÅƒAƒNƒVƒ‡ƒ“‚ğÀs
-                        m_uiContext?.Post(_ =>
-                        {
-                            timer.ElapsedAction?.Invoke();
-                        }, null);
+                        m_cancellationTokenSource.Cancel();
                     }
+                }
+                finally
+                {
+                    m_cancellationTokenSource.Dispose();
+                    m_cancellationTokenSource = null;
                 }
             }
         }
 
         #endregion
-
-
     }
 }

@@ -30,11 +30,12 @@ namespace MimumuToolkitTest
 
 
 
+        ReminderDialog dialog = new ReminderDialog();
         private void button1_Click(object sender, EventArgs e)
         {
             //MimumuToolkitManager.SetTimer(5, ShowTest);
-            ReminderDialog dialog = new ReminderDialog();
-            dialog.ShowDialog();
+            
+            dialog.Show();
 
         }
 

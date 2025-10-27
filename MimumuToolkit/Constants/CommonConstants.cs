@@ -4,6 +4,7 @@
     {
 
         internal const int DefaultGroupNo = 1;
+        internal const int DefaultUserNo = 1;
 
         internal static class AppConfigKeys
         {

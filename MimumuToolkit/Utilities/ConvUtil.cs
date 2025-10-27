@@ -47,6 +47,19 @@ namespace MimumuToolkit.Utilities
             return defaultValue;
         }
 
+        public static CheckState ToCheckState(int value)
+        {
+            return value switch
+            {
+                0 => CheckState.Unchecked,
+                1 => CheckState.Checked,
+                2 => CheckState.Indeterminate,
+                _ => CheckState.Unchecked,
+            };
+        }
+
+        #region 日時系変換
+
         /// <summary>
         /// DateTimeオブジェクトをYYYYMMDD形式の整数に変換
         /// </summary>
@@ -146,5 +159,7 @@ namespace MimumuToolkit.Utilities
 
             return sb.ToString();
         }
+
+        #endregion
     }
 }

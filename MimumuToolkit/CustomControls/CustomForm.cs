@@ -1,4 +1,5 @@
 ﻿using MimumuToolkit.Constants;
+using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ namespace MimumuToolkit.CustomControls
 {
     public class CustomForm : Form
     {
+
         /// <summary>
         /// Padding の値
         /// </summary>
@@ -103,11 +105,6 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            base.OnHandleDestroyed(e);
-        }
-
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -122,6 +119,39 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
+        /// <summary>
+        /// 登録されたタイマーアクションのリスト
+        /// </summary>
+        private List<Action> m_timerActions = [];
+
+        private bool m_isDisposed = false;
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            if (m_isDisposed == false)
+            {
+                foreach (var action in m_timerActions)
+                {
+                    MimumuToolkitManager.RemoveTimer(action);
+                }
+                m_timerActions.Clear();
+
+                m_isDisposed = true;
+            }
+            base.OnHandleDestroyed(e);
+        }
+
+
+        protected void SetTimer(int intervalSeconds, Action action, bool executeFirst = true)
+        {
+            MimumuToolkitManager.SetTimer(intervalSeconds, action, executeFirst);
+            m_timerActions.Add(action);
+        }
+
+        public void SetDailyTimer(Action action)
+        {
+            MimumuToolkitManager.SetDailyTimer(action);
+            m_timerActions.Add(action);
+        }
 
         [DllImport("dwmapi.dll")]
         public static extern bool DwmIsCompositionEnabled();

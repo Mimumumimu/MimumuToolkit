@@ -1,6 +1,7 @@
 ﻿using MimumuReminderDialog.Database.Entities;
 using MimumuReminderDialog.Database.Queries;
 using MimumuToolkit;
+using MimumuToolkit.Constants;
 using MimumuToolkit.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace MimumuReminderDialog
 {
     internal class ReminderManager
     {
+        public static int SnoozeInterval { get; set; } = ReminderConstant.DefaultSnoozeMinute;
+
         public static List<ReminderDataEntity> ReminderList
         {
             get
@@ -24,5 +27,18 @@ namespace MimumuReminderDialog
             }
         }
         private static List<ReminderDataEntity>? m_reminderList = null;
+
+        public static List<ReminderStateDataEntity> ReminderStates
+        {
+            get
+            {
+                if (m_reminderStates == null)
+                {
+                    m_reminderStates = ReminderQuery.GetReminderState();
+                }
+                return m_reminderStates;
+            }
+        }
+        private static List<ReminderStateDataEntity>? m_reminderStates = null;
     }
 }

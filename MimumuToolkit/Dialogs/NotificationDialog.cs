@@ -11,6 +11,8 @@ namespace MimumuToolkit.Dialogs
     {
         private Color m_originalBackColor;
         private string m_speakMessage = string.Empty;
+        Action? m_closeAction = null;
+
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title
@@ -79,6 +81,12 @@ namespace MimumuToolkit.Dialogs
                 e.Cancel = true;
             }
 
+            if (m_closeAction != null)
+            {
+                m_closeAction();
+                m_closeAction = null;
+            }   
+
             return;
         }
 
@@ -92,8 +100,9 @@ namespace MimumuToolkit.Dialogs
             LLblMessage.Links.Clear();
         }
 
-        public void ShowNotification(List<LinkEntity> links)
+        public void ShowNotification(List<LinkEntity> links, Action? closeAction = null)
         {
+            m_closeAction = closeAction;
             ClearLinkData();
 
             // 現在の位置とサイズを保存
@@ -164,7 +173,8 @@ namespace MimumuToolkit.Dialogs
             this.TopMost = false;
             if (MimumuToolkitManager.IsNotificationSoundEnabled == true)
             {
-                CommonUtil.SpeakText(m_speakMessage, volume: 50);
+                //CommonUtil.SpeakText(m_speakMessage, volume: 50);
+                CommonUtil.SpeakText(m_speakMessage);
             }
             if (MimumuToolkitManager.IsNotificationFlashEnabled == true)
             {

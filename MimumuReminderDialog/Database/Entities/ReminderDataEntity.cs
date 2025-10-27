@@ -32,7 +32,8 @@ namespace MimumuReminderDialog.Database.Entities
         }
 
         public int Seq { get; set; }
-        public int CreateUser { get; set; }
+        //public int CreateUser { get; set; }
+        //public int UpdateUser { get; set; }
         public bool Delete { get; set; }
         public int GroupNo { get; set; }
         public int No { get; set; }
@@ -74,6 +75,7 @@ namespace MimumuReminderDialog.Database.Entities
             }
         }
 
+        [JsonIgnore]
         public CommonConstants.DayOfWeekFlags GetDaysOfWeek
         {
             get

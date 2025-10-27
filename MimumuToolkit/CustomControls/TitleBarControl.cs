@@ -39,11 +39,6 @@ namespace MimumuToolkit.CustomControls
             }
         }
 
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            base.OnHandleDestroyed(e);
-        }
-
         private void TitleBarControl_MouseDown(object sender, MouseEventArgs e)
         {
             OnMouseDown(e);

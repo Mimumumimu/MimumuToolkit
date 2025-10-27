@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            CclbList = new MimumuToolkit.CustomControls.CustomCheckedListBox();
+            ClbList = new MimumuToolkit.CustomControls.CustomCheckedListBox();
             TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
             RbtnAdd = new MimumuToolkit.CustomControls.RoundButton();
             RbnList = new MimumuToolkit.CustomControls.RoundButton();
             SuspendLayout();
             // 
-            // CclbList
+            // ClbList
             // 
-            CclbList.BorderStyle = BorderStyle.None;
-            CclbList.Dock = DockStyle.Fill;
-            CclbList.Items.AddRange(new object[] { "Dummy01", "Dummy02", "Dummy03", "Dummy04", "Dummy05", "Dummy06", "Dummy07", "Dummy08", "Dummy09", "Dummy10", "Dummy01", "Dummy02", "Dummy03", "Dummy04", "Dummy05", "Dummy06", "Dummy07", "Dummy08", "Dummy09", "Dummy10" });
-            CclbList.Location = new Point(4, 34);
-            CclbList.Name = "CclbList";
-            CclbList.Size = new Size(192, 234);
-            CclbList.TabIndex = 0;
-            CclbList.ItemCheck += CclbList_ItemCheck;
+            ClbList.BorderStyle = BorderStyle.None;
+            ClbList.Dock = DockStyle.Fill;
+            ClbList.Items.AddRange(new object[] { "Dummy01", "Dummy02", "Dummy03", "Dummy04", "Dummy05", "Dummy06", "Dummy07", "Dummy08", "Dummy09", "Dummy10", "Dummy01", "Dummy02", "Dummy03", "Dummy04", "Dummy05", "Dummy06", "Dummy07", "Dummy08", "Dummy09", "Dummy10" });
+            ClbList.Location = new Point(4, 34);
+            ClbList.Name = "ClbList";
+            ClbList.Size = new Size(192, 234);
+            ClbList.TabIndex = 0;
+            ClbList.ItemCheck += ClbList_ItemCheck;
             // 
             // TbTitle
             // 
@@ -69,7 +69,7 @@
             RbtnAdd.HighlightColor = Color.FromArgb(66, 165, 245);
             RbtnAdd.Location = new Point(163, 235);
             RbtnAdd.Name = "RbtnAdd";
-            RbtnAdd.ParentControl = CclbList;
+            RbtnAdd.ParentControl = ClbList;
             RbtnAdd.Size = new Size(30, 30);
             RbtnAdd.TabIndex = 1;
             RbtnAdd.Text = "＋";
@@ -91,7 +91,7 @@
             RbnList.HighlightColor = Color.FromArgb(66, 165, 245);
             RbnList.Location = new Point(163, 41);
             RbnList.Name = "RbnList";
-            RbnList.ParentControl = CclbList;
+            RbnList.ParentControl = ClbList;
             RbnList.Size = new Size(30, 30);
             RbnList.TabIndex = 2;
             RbnList.Text = "≡";
@@ -104,9 +104,8 @@
             ClientSize = new Size(200, 272);
             Controls.Add(RbnList);
             Controls.Add(RbtnAdd);
-            Controls.Add(CclbList);
+            Controls.Add(ClbList);
             Controls.Add(TbTitle);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "ReminderDialog";
             Text = "リマインダー";
             ResumeLayout(false);
@@ -114,7 +113,7 @@
 
         #endregion
 
-        private MimumuToolkit.CustomControls.CustomCheckedListBox CclbList;
+        private MimumuToolkit.CustomControls.CustomCheckedListBox ClbList;
         private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
         private MimumuToolkit.CustomControls.RoundButton RbtnAdd;
         private MimumuToolkit.CustomControls.RoundButton RbnList;
