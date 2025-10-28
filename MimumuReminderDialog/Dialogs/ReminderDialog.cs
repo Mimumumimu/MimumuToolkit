@@ -73,10 +73,7 @@ namespace MimumuReminderDialog.Dialogs
                 //dialog.StartPosition = FormStartPosition.CenterParent;
                 //dialog.GroupNo = MimumuToolkitManager.GroupNo;
                 var result = dialog.ShowDialog(this);
-                if (result == DialogResult.OK)
-                {
-                    SetList();
-                }
+                SetList();
             }
         }
 

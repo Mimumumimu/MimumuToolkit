@@ -1,13 +1,5 @@
 ﻿using MimumuReminderDialog.Database.Entities;
 using MimumuReminderDialog.Database.Queries;
-using MimumuToolkit;
-using MimumuToolkit.Constants;
-using MimumuToolkit.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MimumuReminderDialog
 {

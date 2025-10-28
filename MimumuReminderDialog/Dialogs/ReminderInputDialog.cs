@@ -33,9 +33,24 @@ namespace MimumuReminderDialog.Dialogs
 
         private void RbtnOK_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TxtSubject.Text))
+            {
+                int x = 20;  // ボタンの右端付近
+                int y = TxtSubject.Height; // ボタンの下端付近
+
+                TxtSubject.Focus();
+                TpCommon.BackColor = Color.FromArgb(184, 134, 11);
+                TpCommon.Show("件名を入力してください。", TxtSubject, x, y, 3000);
+
+                return;
+            }
             SetDisplayToEntity();
 
             ReminderQuery.SetReminder(m_reminder);
+
+            // 成功時にダイアログを閉じる
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void DtpDate_ValueChanged(object sender, EventArgs e)

@@ -43,6 +43,7 @@ namespace MimumuReminderDialog.Dialogs
             CbTuesday = new FlatCheckBox();
             CbMonday = new FlatCheckBox();
             PnlDock = new Panel();
+            TxtLink = new TextBox();
             CbSoundNotification = new FlatCheckBox();
             GbExternalNotification = new GroupBox();
             CmbNtfy = new ComboBox();
@@ -53,7 +54,7 @@ namespace MimumuReminderDialog.Dialogs
             TxtSubject = new TextBox();
             RbtnOK = new RoundButton();
             panel1 = new Panel();
-            TxtLink = new TextBox();
+            TpCommon = new CustomToolTip();
             GbDaysOfWeek.SuspendLayout();
             PnlDock.SuspendLayout();
             GbExternalNotification.SuspendLayout();
@@ -204,6 +205,15 @@ namespace MimumuReminderDialog.Dialogs
             PnlDock.Size = new Size(424, 347);
             PnlDock.TabIndex = 2;
             // 
+            // TxtLink
+            // 
+            TxtLink.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtLink.Location = new Point(12, 205);
+            TxtLink.Name = "TxtLink";
+            TxtLink.PlaceholderText = "Link";
+            TxtLink.Size = new Size(395, 23);
+            TxtLink.TabIndex = 7;
+            // 
             // CbSoundNotification
             // 
             CbSoundNotification.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -270,6 +280,7 @@ namespace MimumuReminderDialog.Dialogs
             // TxtRemarks
             // 
             TxtRemarks.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtRemarks.ImeMode = ImeMode.Hiragana;
             TxtRemarks.Location = new Point(12, 165);
             TxtRemarks.Name = "TxtRemarks";
             TxtRemarks.PlaceholderText = "備考";
@@ -279,6 +290,7 @@ namespace MimumuReminderDialog.Dialogs
             // TxtSubject
             // 
             TxtSubject.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TxtSubject.ImeMode = ImeMode.Hiragana;
             TxtSubject.Location = new Point(12, 125);
             TxtSubject.Name = "TxtSubject";
             TxtSubject.PlaceholderText = "件名";
@@ -294,7 +306,6 @@ namespace MimumuReminderDialog.Dialogs
             RbtnOK.ButtonColor = Color.FromArgb(144, 202, 249);
             RbtnOK.ClickColor = Color.FromArgb(66, 135, 245);
             RbtnOK.CornerRadius = 5;
-            RbtnOK.DialogResult = DialogResult.OK;
             RbtnOK.FlatAppearance.BorderSize = 0;
             RbtnOK.FlatStyle = FlatStyle.Flat;
             RbtnOK.ForeColor = Color.Black;
@@ -317,14 +328,9 @@ namespace MimumuReminderDialog.Dialogs
             panel1.Size = new Size(567, 49);
             panel1.TabIndex = 3;
             // 
-            // TxtLink
+            // TpCommon
             // 
-            TxtLink.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TxtLink.Location = new Point(12, 205);
-            TxtLink.Name = "TxtLink";
-            TxtLink.PlaceholderText = "Link";
-            TxtLink.Size = new Size(395, 23);
-            TxtLink.TabIndex = 7;
+            TpCommon.OwnerDraw = true;
             // 
             // ReminderInputDialog
             // 
@@ -373,5 +379,6 @@ namespace MimumuReminderDialog.Dialogs
         private Label TxtDiscord;
         private Panel panel1;
         private TextBox TxtLink;
+        private CustomToolTip TpCommon;
     }
 }
