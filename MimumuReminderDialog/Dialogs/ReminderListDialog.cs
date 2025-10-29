@@ -83,30 +83,8 @@ namespace MimumuReminderDialog.Dialogs
         {
             DgvList.Rows.Clear();
 
-            //{
-            //    DataGridViewRow row = new();
-            //    row.CreateCells(DgvList);
-            //    row.Cells[DgvtxtcUser.Index].Value = "テストさん";
-            //    row.Cells[DgvtxtcDate.Index].Value = "－";
-            //    row.Cells[DgvtxtcDaysOfWeek.Index].Value = "月火水";
-            //    row.Cells[DgvtxtcTime.Index].Value = "12:30";
-            //    row.Cells[DgvtxtcSubject.Index].Value = "寝る前の薬";
-            //    row.Cells[DgvtxtcRegister.Index].Value = "テストさん";
-            //    DgvList.Rows.Add(row);
-            //}
-            //{
-            //    DataGridViewRow row = new();
-            //    row.CreateCells(DgvList);
-            //    row.Cells[DgvtxtcUser.Index].Value = "テストさん";
-            //    row.Cells[DgvtxtcDate.Index].Value = "2025/10/28";
-            //    row.Cells[DgvtxtcDaysOfWeek.Index].Value = "－";
-            //    row.Cells[DgvtxtcTime.Index].Value = "12:30";
-            //    row.Cells[DgvtxtcSubject.Index].Value = "寝る前の薬";
-            //    row.Cells[DgvtxtcRegister.Index].Value = "テストさん";
-            //    DgvList.Rows.Add(row);
-            //}
-
-            foreach (var reminder in ReminderManager.ReminderList)
+            var reminderList = ReminderManager.ReminderList.OrderBy(r => r.Date).ThenBy(r => r.Time).ThenBy(r => r.Seq).ToList();
+            foreach (var reminder in reminderList)
             {
                 string date;
                 if (reminder.Date == 99999999)

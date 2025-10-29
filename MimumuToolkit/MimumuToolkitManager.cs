@@ -31,10 +31,6 @@ namespace MimumuToolkit
             if (m_notificationDialog == null)
             {
                 m_notificationDialog = new NotificationDialog();
-                m_notificationDialog.Opacity = 0;
-                m_notificationDialog.Show();
-                m_notificationDialog.Visible = false;
-                m_notificationDialog.Opacity = 1;
             }
             m_notificationDialog.ShowNotification(links, closeAction);
         }

@@ -31,16 +31,6 @@ namespace MimumuReminderDialog.Dialogs
             SetList();
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                this.Visible = false;
-                e.Cancel = true;
-            }
-        }
-
         private void ClbList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             // なぜか不要……
@@ -198,16 +188,22 @@ namespace MimumuReminderDialog.Dialogs
 
         private void VisibleFromNotification()
         {
+            int nowTime = ConvUtil.DatetimeToIntTime(DateTime.Now);
             for (int i = 0; i < ClbList.Items.Count; i++)
             {
+                if (ClbList.Items[i] is ReminderDataEntity reminder)
+                {
+                    if (reminder.Time > nowTime)
+                    {
+                        continue;
+                    }
+                }
                 if (ClbList.GetItemCheckState(i) == CheckState.Unchecked)
                 {
                     ClbList.SetItemCheckState(i, CheckState.Indeterminate);
                 }
             }
-            this.TopMost = true;
-            this.Visible = true;
-            this.TopMost = false;
+            CustomShow();
         }
     }
 }

@@ -72,20 +72,14 @@ namespace MimumuToolkit.Dialogs
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
-
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                ClearLinkData();
-                this.Visible = false;
-                e.Cancel = true;
-            }
-
+            ClearLinkData();
             if (m_closeAction != null)
             {
                 m_closeAction();
                 m_closeAction = null;
-            }   
+            }
+
+            base.OnFormClosing(e);
 
             return;
         }
@@ -168,9 +162,7 @@ namespace MimumuToolkit.Dialogs
             // 位置を調整 (上に伸びるように)
             this.Location = new Point(originalLocation.X - deltaWidth, originalLocation.Y - deltaHeight);
 
-            this.TopMost = true;
-            this.Visible = true;
-            this.TopMost = false;
+            CustomShow();
             if (MimumuToolkitManager.IsNotificationSoundEnabled == true)
             {
                 //CommonUtil.SpeakText(m_speakMessage, volume: 50);

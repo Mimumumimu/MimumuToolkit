@@ -9,6 +9,8 @@ namespace MimumuToolkit.CustomControls
 {
     public class CustomForm : Form
     {
+        private bool m_hideOnClose = false;
+        private bool m_hasBeenShown = false;
 
         /// <summary>
         /// Padding の値
@@ -86,6 +88,36 @@ namespace MimumuToolkit.CustomControls
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
+        public void CustomShow()
+        {
+            if (m_hasBeenShown == true)
+            {
+                this.TopMost = true;
+                this.Visible = true;
+                this.TopMost = false;
+            }
+            else
+            {
+                m_hideOnClose = true;
+                this.Opacity = 0;
+                this.Show();
+                this.Opacity = 1;
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                if (m_hideOnClose == true)
+                {
+                    this.Visible = false;
+                    e.Cancel = true;
+                }
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -99,6 +131,7 @@ namespace MimumuToolkit.CustomControls
        protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            m_hasBeenShown = true;
             if (MimumuToolkitManager.IsDarkModeEnabled)
             {
                 FormUtil.SetDarkMode(this, 2);
@@ -179,6 +212,7 @@ namespace MimumuToolkit.CustomControls
         }
 
         private const int WM_NCHITTEST = 0x0084;
+        private const int WM_SIZING = 0x0214;
         //private const int HTCLIENT = 0x0001;
         private const int HTLEFT = 0x000A;
         private const int HTRIGHT = 0x000B;
@@ -189,11 +223,24 @@ namespace MimumuToolkit.CustomControls
         private const int HTBOTTOMLEFT = 0x0010;
         private const int HTBOTTOMRIGHT = 0x0011;
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
 
-            if (m.Msg == WM_NCHITTEST)
+            if (m.Msg == WM_SIZING)
+            {
+                HandleWmSizing(ref m);
+            }
+            else if (m.Msg == WM_NCHITTEST)
             {
                 if (Resizable == false || this.WindowState == FormWindowState.Maximized)
                 {
@@ -233,6 +280,39 @@ namespace MimumuToolkit.CustomControls
                 else if (relativeY >= h - sz)
                     m.Result = (IntPtr)HTBOTTOM;
             }
+        }
+
+        private void HandleWmSizing(ref Message m)
+        {
+            if (Resizable == false || this.WindowState == FormWindowState.Maximized)
+            {
+                return;
+            }
+
+            RECT rect = (RECT)Marshal.PtrToStructure(m.LParam, typeof(RECT))!;
+            int width = rect.Right - rect.Left;
+            int height = rect.Bottom - rect.Top;
+
+            // MinimumSize をチェック
+            if (this.MinimumSize != Size.Empty)
+            {
+                if (width < this.MinimumSize.Width)
+                    rect.Right = rect.Left + this.MinimumSize.Width;
+                if (height < this.MinimumSize.Height)
+                    rect.Bottom = rect.Top + this.MinimumSize.Height;
+            }
+
+            // MaximumSize をチェック
+            if (this.MaximumSize != Size.Empty)
+            {
+                if (width > this.MaximumSize.Width)
+                    rect.Right = rect.Left + this.MaximumSize.Width;
+                if (height > this.MaximumSize.Height)
+                    rect.Bottom = rect.Top + this.MaximumSize.Height;
+            }
+
+            Marshal.StructureToPtr(rect, m.LParam, false);
+            m.Result = (IntPtr)1; // TRUE: サイズ変更を継続
         }
 
         private string GetLocationXKey() => string.Format(CommonConstants.AppConfigKeys.LocationXKeyFormat, Name);
