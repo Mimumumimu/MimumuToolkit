@@ -7,13 +7,7 @@ using System.Threading;
 
 namespace MimumuToolkit
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks>
-    /// 継承する意味がないので、sealed で明示的に「これは継承されるべきではない」と宣言しています
-    /// </remarks>
-    public sealed class MimumuToolkitManager
+    public class MimumuToolkitManager
     {
         public static int GroupNo { get; set; } = CommonConstants.DefaultGroupNo;
         public static int UserNo { get; set; } = CommonConstants.DefaultUserNo;

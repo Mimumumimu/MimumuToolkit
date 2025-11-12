@@ -108,6 +108,7 @@
             Controls.Add(TbTitle);
             MinimumSize = new Size(200, 272);
             Name = "ReminderDialog";
+            ShowInTaskbar = false;
             Text = "リマインダー";
             ResumeLayout(false);
         }

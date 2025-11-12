@@ -2,14 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SatelliteResourceLanguages>ja-JP</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MimumuReminderDialog\MimumuReminderDialog.csproj" />
+    <ProjectReference Include="..\MimumuToolkit.Extended\MimumuToolkit.Extended.csproj" />
     <ProjectReference Include="..\MimumuToolkit\MimumuToolkit.csproj" />
   </ItemGroup>
 

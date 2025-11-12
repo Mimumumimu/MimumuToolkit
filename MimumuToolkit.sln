@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuToolkit", "MimumuTool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuReminderDialog", "MimumuReminderDialog\MimumuReminderDialog.csproj", "{234F2EFF-9093-4BB5-AEE8-2C34A52B5B4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimumuToolkit.Extended", "MimumuToolkit.Extended\MimumuToolkit.Extended.csproj", "{49C42BAD-522A-40C7-9D32-77615086B937}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{234F2EFF-9093-4BB5-AEE8-2C34A52B5B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{234F2EFF-9093-4BB5-AEE8-2C34A52B5B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{234F2EFF-9093-4BB5-AEE8-2C34A52B5B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49C42BAD-522A-40C7-9D32-77615086B937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C42BAD-522A-40C7-9D32-77615086B937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C42BAD-522A-40C7-9D32-77615086B937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C42BAD-522A-40C7-9D32-77615086B937}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

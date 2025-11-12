@@ -136,6 +136,7 @@ namespace MimumuReminderDialog.Dialogs
                 if ((now - m_lastSnoozeTime).TotalMinutes >= 30)
                 {
                     isSnoozeNotification = true;
+                    m_lastSnoozeTime = now;
                 }
             }
             else
@@ -188,7 +189,9 @@ namespace MimumuReminderDialog.Dialogs
 
         private void VisibleFromNotification()
         {
-            int nowTime = ConvUtil.DatetimeToIntTime(DateTime.Now);
+            DateTime now = DateTime.Now;
+            int nowTime = ConvUtil.DatetimeToIntTime(now);
+            m_lastSnoozeTime = now;
             for (int i = 0; i < ClbList.Items.Count; i++)
             {
                 if (ClbList.Items[i] is ReminderDataEntity reminder)

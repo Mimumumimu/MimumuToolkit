@@ -37,10 +37,10 @@
             // LblTitle
             // 
             LblTitle.AutoSize = true;
-            LblTitle.Font = new Font("Segoe UI", 9F);
+            LblTitle.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LblTitle.Location = new Point(15, 15);
             LblTitle.Name = "LblTitle";
-            LblTitle.Size = new Size(70, 15);
+            LblTitle.Size = new Size(73, 15);
             LblTitle.TabIndex = 0;
             LblTitle.Text = "Notification";
             LblTitle.MouseDown += NotificationDialog_MouseDown;
@@ -50,7 +50,7 @@
             LLblMessage.AutoSize = true;
             LLblMessage.Location = new Point(20, 40);
             LLblMessage.Name = "LLblMessage";
-            LLblMessage.Size = new Size(98, 42);
+            LLblMessage.Size = new Size(103, 32);
             LLblMessage.TabIndex = 1;
             LLblMessage.TabStop = true;
             LLblMessage.Text = "リマインダー\r\n　19:00 目薬";
@@ -71,6 +71,7 @@
             Name = "NotificationDialog";
             Resizable = false;
             ShowInBottomRightOnce = true;
+            ShowInTaskbar = false;
             Text = "NotificationDialog";
             MouseDown += NotificationDialog_MouseDown;
             ResumeLayout(false);
