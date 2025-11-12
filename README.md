@@ -20,7 +20,7 @@ MimumuToolkit は、Windows Forms アプリケーション向けのカスタム�
 
 ## 必要な環境
 
-- .NET 9
+- .NET 10
 - C# 13.0
 - Windows Forms
 
