@@ -1,4 +1,4 @@
-﻿using MimumuToolkit.CustomControls;
+﻿using MimumuToolkit.Controls;
 using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
 using System.ComponentModel;

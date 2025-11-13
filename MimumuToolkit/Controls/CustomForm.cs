@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace MimumuToolkit.CustomControls
+namespace MimumuToolkit.Controls
 {
     public class CustomForm : Form
     {

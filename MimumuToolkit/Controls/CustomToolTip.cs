@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MimumuToolkit.CustomControls
+namespace MimumuToolkit.Controls
 {
     public class CustomToolTip : ToolTip
     {

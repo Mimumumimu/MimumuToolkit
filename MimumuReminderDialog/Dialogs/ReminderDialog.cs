@@ -2,7 +2,7 @@
 using MimumuReminderDialog.Database.Queries;
 using MimumuToolkit;
 using MimumuToolkit.Constants;
-using MimumuToolkit.CustomControls;
+using MimumuToolkit.Controls;
 using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
 using System;

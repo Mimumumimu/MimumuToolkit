@@ -1,4 +1,4 @@
-﻿using MimumuToolkit.CustomControls;
+﻿using MimumuToolkit.Controls;
 
 namespace MimumuReminderDialog.Dialogs
 {
@@ -355,7 +355,7 @@ namespace MimumuReminderDialog.Dialogs
 
         #endregion
 
-        private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
+        private MimumuToolkit.Controls.TitleBarControl TbTitle;
         private CheckedListBox checkedListBox1;
         private DateTimePicker DtpDate;
         private DateTimePicker DtpTime;
@@ -372,7 +372,7 @@ namespace MimumuReminderDialog.Dialogs
         private TextBox TxtSubject;
         private GroupBox GbExternalNotification;
         private ComboBox CmbDiscord;
-        private MimumuToolkit.CustomControls.RoundButton RbtnOK;
+        private MimumuToolkit.Controls.RoundButton RbtnOK;
         private FlatCheckBox CbSoundNotification;
         private ComboBox CmbNtfy;
         private Label TxtNtfy;

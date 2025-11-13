@@ -1,5 +1,5 @@
 ﻿using MimumuToolkit.Constants;
-using MimumuToolkit.CustomControls;
+using MimumuToolkit.Controls;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             PnlFill = new Panel();
-            roundButton2 = new MimumuToolkit.CustomControls.RoundButton();
+            roundButton2 = new MimumuToolkit.Controls.RoundButton();
             checkedListBox1 = new CheckedListBox();
             CbDarkMode = new CheckBox();
             button1 = new Button();
@@ -40,7 +40,7 @@
             TbVolume = new TrackBar();
             BtnSpeek = new Button();
             TxtSpeek = new TextBox();
-            titleBarControl1 = new MimumuToolkit.CustomControls.TitleBarControl();
+            titleBarControl1 = new MimumuToolkit.Controls.TitleBarControl();
             PnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TbSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)TbVolume).BeginInit();
@@ -214,8 +214,8 @@
         private TextBox TxtDiscordKey;
         private Button button1;
         private CheckBox CbDarkMode;
-        private MimumuToolkit.CustomControls.RoundButton roundButton2;
+        private MimumuToolkit.Controls.RoundButton roundButton2;
         private CheckedListBox checkedListBox1;
-        private MimumuToolkit.CustomControls.TitleBarControl titleBarControl1;
+        private MimumuToolkit.Controls.TitleBarControl titleBarControl1;
     }
 }

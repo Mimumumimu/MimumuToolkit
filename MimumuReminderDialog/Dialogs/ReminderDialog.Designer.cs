@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ClbList = new MimumuToolkit.CustomControls.CustomCheckedListBox();
-            TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
-            RbtnAdd = new MimumuToolkit.CustomControls.RoundButton();
-            RbnList = new MimumuToolkit.CustomControls.RoundButton();
+            ClbList = new MimumuToolkit.Controls.CustomCheckedListBox();
+            TbTitle = new MimumuToolkit.Controls.TitleBarControl();
+            RbtnAdd = new MimumuToolkit.Controls.RoundButton();
+            RbnList = new MimumuToolkit.Controls.RoundButton();
             SuspendLayout();
             // 
             // ClbList
@@ -115,9 +115,9 @@
 
         #endregion
 
-        private MimumuToolkit.CustomControls.CustomCheckedListBox ClbList;
-        private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
-        private MimumuToolkit.CustomControls.RoundButton RbtnAdd;
-        private MimumuToolkit.CustomControls.RoundButton RbnList;
+        private MimumuToolkit.Controls.CustomCheckedListBox ClbList;
+        private MimumuToolkit.Controls.TitleBarControl TbTitle;
+        private MimumuToolkit.Controls.RoundButton RbtnAdd;
+        private MimumuToolkit.Controls.RoundButton RbnList;
     }
 }

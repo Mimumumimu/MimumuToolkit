@@ -30,12 +30,12 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            TbTitle = new MimumuToolkit.CustomControls.TitleBarControl();
-            RbtnAdd = new MimumuToolkit.CustomControls.RoundButton();
+            TbTitle = new MimumuToolkit.Controls.TitleBarControl();
+            RbtnAdd = new MimumuToolkit.Controls.RoundButton();
             PnlTop = new Panel();
-            flatCheckBox2 = new MimumuToolkit.CustomControls.FlatCheckBox();
-            flatCheckBox1 = new MimumuToolkit.CustomControls.FlatCheckBox();
-            DgvList = new MimumuToolkit.CustomControls.CustomDataGridView();
+            flatCheckBox2 = new MimumuToolkit.Controls.FlatCheckBox();
+            flatCheckBox1 = new MimumuToolkit.Controls.FlatCheckBox();
+            DgvList = new MimumuToolkit.Controls.CustomDataGridView();
             DgvtxtcUser = new DataGridViewTextBoxColumn();
             DgvtxtcDate = new DataGridViewTextBoxColumn();
             DgvtxtcDaysOfWeek = new DataGridViewTextBoxColumn();
@@ -222,12 +222,12 @@
 
         #endregion
 
-        private MimumuToolkit.CustomControls.TitleBarControl TbTitle;
-        private MimumuToolkit.CustomControls.RoundButton RbtnAdd;
+        private MimumuToolkit.Controls.TitleBarControl TbTitle;
+        private MimumuToolkit.Controls.RoundButton RbtnAdd;
         private Panel PnlTop;
-        private MimumuToolkit.CustomControls.FlatCheckBox flatCheckBox1;
-        private MimumuToolkit.CustomControls.FlatCheckBox flatCheckBox2;
-        private MimumuToolkit.CustomControls.CustomDataGridView DgvList;
+        private MimumuToolkit.Controls.FlatCheckBox flatCheckBox1;
+        private MimumuToolkit.Controls.FlatCheckBox flatCheckBox2;
+        private MimumuToolkit.Controls.CustomDataGridView DgvList;
         private DataGridViewTextBoxColumn DgvtxtcUser;
         private DataGridViewTextBoxColumn DgvtxtcDate;
         private DataGridViewTextBoxColumn DgvtxtcDaysOfWeek;

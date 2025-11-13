@@ -1,4 +1,4 @@
-﻿namespace MimumuToolkit.CustomControls
+﻿namespace MimumuToolkit.Controls
 {
     partial class TitleBarControl
     {

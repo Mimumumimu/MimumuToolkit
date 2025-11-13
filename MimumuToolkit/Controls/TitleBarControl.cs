@@ -3,7 +3,7 @@ using MimumuToolkit.Utilities;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace MimumuToolkit.CustomControls
+namespace MimumuToolkit.Controls
 {
     public partial class TitleBarControl : UserControl
     {

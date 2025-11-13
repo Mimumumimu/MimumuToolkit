@@ -2,7 +2,7 @@
 using MimumuReminderDialog.Dialogs;
 using MimumuToolkit;
 using MimumuToolkit.Constants;
-using MimumuToolkit.CustomControls;
+using MimumuToolkit.Controls;
 using MimumuToolkit.Dialogs;
 using MimumuToolkit.Entities;
 using MimumuToolkit.Utilities;
